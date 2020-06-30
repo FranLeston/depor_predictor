@@ -36,4 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+     /**
+     * Get the predictions for the user.
+     */
+    public function predictions()
+    {
+        return $this->hasMany('App\Models\Prediction');
+    }
 }

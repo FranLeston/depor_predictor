@@ -14,4 +14,5 @@ class Team extends Model
     protected $fillable = [
         'team_id','name', 'logo', 'country', 'is_national', 'venue_city', 'venue_name'
     ];
+    
 }

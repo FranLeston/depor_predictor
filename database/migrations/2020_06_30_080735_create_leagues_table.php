@@ -19,11 +19,12 @@ class CreateLeaguesTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('country');
-            $table->date('season_start');
-            $table->date('season_end');
-            $table->string('logo');
-            $table->string('flag');
-            $table->integer('is_active');
+            $table->dateTime('season_start')->nullable();
+            $table->dateTime('season_end')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('flag')->nullable();
+            $table->integer('is_current');
+
             $table->timestamps();
         });
     }

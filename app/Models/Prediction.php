@@ -14,4 +14,12 @@ class Prediction extends Model
     protected $fillable = [
         'user_id', 'fixture_id', 'home_team_prediction', 'away_team_prediction', 'points'
     ];
+
+    /**
+     * Get the user that owns the prediction.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }
