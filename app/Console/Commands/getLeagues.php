@@ -39,13 +39,29 @@ class getLeagues extends Command
      */
     public function handle()
     {
-        $this->info("Getting Leagues");
+
         $apiService = new FootballApiService();
         $results = $apiService->getAllLeagues();
         $leagues = $results->api->leagues;
+        $this->info("Getting Leagues.  Total:" . count($leagues));
 
-       foreach ($leagues as $league) {
+        foreach ($leagues as $league) {
 
+        $theLeague = League::where('league_id', $league->league_id)->first();
+
+        if (isset($theLeague)){
+            $this->updateDatabase($theLeague, $league);
+        } else {
+            $this->saveToDatabase($league);
+
+        }
+
+       }
+       $this->info("Cool Beans! " .count($leagues) ." Leagues were updated!");
+
+    }
+
+    public function saveToDatabase($league) {
         $dbLeague = new League;
         $dbLeague->league_id = $league->league_id;
         $dbLeague->name = $league->name;
@@ -69,8 +85,32 @@ class getLeagues extends Command
         $dbLeague->is_current = $league->is_current;
 
         $dbLeague->save();
+        $this->info("Saved to DB: " . $league->league_id);
+    }
 
-       }
+    public function updateDatabase($theLeague, $league) {
+        $theLeague->league_id = $league->league_id;
+        $theLeague->name = $league->name;
+        $theLeague->type = $league->type;
+        $theLeague->country = $league->country;
 
+        if ($league->season_start != "" || $league->season_start != null) {
+            $theLeague->season_start = $league->season_start;
+        } else {
+            $theLeague->season_start = null;
+        }
+
+        if ($league->season_end != "" || $league->season_end != null) {
+            $theLeague->season_end = $league->season_end;
+        } else {
+            $theLeague->season_end = null;
+        }
+
+        $theLeague->logo = $league->logo;
+        $theLeague->flag = $league->flag;
+        $theLeague->is_current = $league->is_current;
+
+        $theLeague->save();
+        $this->info("Update League in DB: " . $league->league_id);
     }
 }

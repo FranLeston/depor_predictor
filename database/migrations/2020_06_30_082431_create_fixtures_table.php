@@ -25,8 +25,8 @@ class CreateFixturesTable extends Migration
             $table->foreign('home_team_id')->references('team_id')->on('teams');
             $table->integer('away_team_id');
             $table->foreign('away_team_id')->references('team_id')->on('teams');
-            $table->integer('goals_home_team');
-            $table->integer('goals_away_team');
+            $table->integer('goals_home_team')->nullable();
+            $table->integer('goals_away_team')->nullable();
             $table->timestamps();
         });
     }

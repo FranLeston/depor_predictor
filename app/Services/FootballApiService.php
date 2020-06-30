@@ -44,5 +44,39 @@ class FootballApiService
     return $results;
   }
 
+  public function getTeamsByLeague($league_id)
+  {
+    $response =Http::withHeaders([
+        'X-RapidAPI-Key' => $this->apiKey,
+    ])->get($this->endpoint . 'teams/league/' . $league_id);
+
+
+    $results = json_decode($response->body());
+    return $results;
+  }
+
+  public function getCurrentRoundOfLeague($league_id)
+  {
+    $response =Http::withHeaders([
+        'X-RapidAPI-Key' => $this->apiKey,
+    ])->get($this->endpoint . 'fixtures/rounds/' .$league_id . '/current');
+
+
+    $results = json_decode($response->body());
+    return $results;
+  }
+
+  public function getFixturesByCurrentRound($league_id, $currentRound)
+  {
+    $response =Http::withHeaders([
+        'X-RapidAPI-Key' => $this->apiKey,
+    ])->get($this->endpoint . 'fixtures/league/'. $league_id . '/' . $currentRound);
+
+
+    $results = json_decode($response->body());
+    return $results;
+  }
+
+
 
 }
