@@ -19,9 +19,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 //Users
-Route::prefix('/user')->group( function() {
+Route::prefix('/auth')->group( function() {
 Route::post('/login' , 'Api\V1\LoginController@login');
+Route::post('/register' , 'Api\V1\LoginController@register');
+Route::middleware('auth:api')->post('/logout', 'Api\V1\LoginController@logout');
 });
 
 Route::middleware('auth:api')->get('/prediction', 'Api\V1\PredictionController@index');
-

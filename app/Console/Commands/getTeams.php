@@ -83,7 +83,6 @@ class getTeams extends Command
     }
 
     public function updateDatabase($theTeam, $team)  {
-        $theTeam = new Team;
 
         $theTeam->team_id = $team->team_id;
         $theTeam->name = $team->name;

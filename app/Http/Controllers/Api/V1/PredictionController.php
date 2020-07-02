@@ -8,6 +8,9 @@ use App\Models\Prediction;
 
 class PredictionController extends Controller
 {
+
+
+
     /**
      * Display a listing of the resource.
      *
