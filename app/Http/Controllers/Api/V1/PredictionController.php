@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Prediction;
+use App\Models\Fixture;
 
 class PredictionController extends Controller
 {
@@ -19,6 +20,18 @@ class PredictionController extends Controller
     public function index()
     {
         return Prediction::all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function activeFixtures()
+    {
+        $activeFixtures =  Fixture::with('homeTeam', 'awayTeam')->where('status', 'Not Started')->where('is_current', true)->get();
+
+         return response()->json(['fixtures' => $activeFixtures], 200);
     }
 
     /**

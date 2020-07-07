@@ -25,4 +25,8 @@ Route::post('/register' , 'Api\V1\LoginController@register');
 Route::middleware('auth:api')->post('/logout', 'Api\V1\LoginController@logout');
 });
 
-Route::middleware('auth:api')->get('/prediction', 'Api\V1\PredictionController@index');
+//Active Round
+Route::prefix('/fixtures')->group( function() {
+Route::middleware('auth:api')->get('/active', 'Api\V1\PredictionController@activeFixtures');
+});
+

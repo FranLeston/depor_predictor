@@ -77,6 +77,17 @@ class FootballApiService
     return $results;
   }
 
+  public function getAllFixturesByLeagueId($league_id)
+  {
+    $response =Http::withHeaders([
+        'X-RapidAPI-Key' => $this->apiKey,
+    ])->get($this->endpoint . 'fixtures/league/'. $league_id);
+
+
+    $results = json_decode($response->body());
+    return $results;
+  }
+
 
 
 }

@@ -40,72 +40,51 @@ class getFixtures extends Command
      */
     public function handle()
     {
-        $this->getCurrentRoundFixtures();
+        $this->getAllFixtures();
     }
 
-    public function getCurrentRoundFixtures() {
+    public function getAllFixtures() {
         $secondDivLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda Division")->first();
         $apiService = new FootballApiService();
-        $results = $apiService->getCurrentRoundOfLeague($secondDivLeague->league_id);
-        $currentRound = $results->api->fixtures;
 
-        $fixtureResults = $apiService->getFixturesByCurrentRound($secondDivLeague->league_id, $currentRound[0]);
+        $fixtureResults = $apiService->getAllFixturesByLeagueId($secondDivLeague->league_id);
         $fixtures = $fixtureResults->api->fixtures;
+
+        $results = $apiService->getCurrentRoundOfLeague($secondDivLeague->league_id);
+        $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
         $this->info("Getting Teams...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
+        if ($currentRound == $fixture->round) {
+            $is_current = true;
+        } else {
+            $is_current = false;
+        }
 
-            $theFixture = Fixture::where('fixture_id', $fixture->fixture_id)->first();
+         Fixture::updateOrCreate([
 
-            if (isset($theFixture)){
-                $this->updateDatabase($theFixture, $fixture);
-            } else {
-                $this->saveToDatabase($fixture);
+                'fixture_id'   => $fixture->fixture_id,
+            ],[
+                'league_id'     => $fixture->league_id,
+                'event_date' => $fixture->event_date,
+                'event_timestamp'    =>date('Y-m-d H:i:s', $fixture->event_timestamp),
+                'round'   => $fixture->round,
+                'is_current' => $is_current,
+                'status'       => $fixture->status,
+                'home_team_id'       => $fixture->homeTeam->team_id,
+                'away_team_id'       => $fixture->awayTeam->team_id,
+                'goals_home_team'   => $fixture->goalsHomeTeam,
+                'goals_away_team'    => $fixture->goalsAwayTeam
+            ]);
 
-            }
 
+
+            $this->info("Saved to DB: " . $fixture->fixture_id);
            }
+
            $this->info("Cool Beans! " .count($fixtures) ." fixtures were updated!");
 
     }
 
-    public function saveToDatabase($fixture) {
-        $dbFixture = new Fixture;
-
-        $dbFixture->fixture_id = $fixture->fixture_id;
-        $dbFixture->league_id = $fixture->league_id;
-        $dbFixture->event_date = $fixture->event_date;
-        $dbFixture->event_timestamp = date('Y-m-d H:i:s', $fixture->event_timestamp);
-
-        $dbFixture->round= $fixture->round;
-        $dbFixture->status= $fixture->status;
-        $dbFixture->home_team_id = $fixture->homeTeam->team_id;
-        $dbFixture->away_team_id = $fixture->awayTeam->team_id;
-        $dbFixture->goals_home_team = $fixture->goalsHomeTeam;
-        $dbFixture->goals_away_team = $fixture->goalsAwayTeam;
-
-        $dbFixture->save();
-        $this->info("Saved to DB: " . $fixture->fixture_id);
-
-    }
-
-    public function updateDatabase($theFixture, $fixture) {
-
-
-        $theFixture->fixture_id = $fixture->fixture_id;
-        $theFixture->league_id = $fixture->league_id;
-        $theFixture->event_date = $fixture->event_date;
-        $theFixture->event_timestamp = date('Y-m-d H:i:s', $fixture->event_timestamp);
-        $theFixture->round= $fixture->round;
-        $theFixture->status= $fixture->status;
-        $theFixture->home_team_id = $fixture->homeTeam->team_id;
-        $theFixture->away_team_id = $fixture->awayTeam->team_id;
-        $theFixture->goals_home_team = $fixture->goalsHomeTeam;
-        $theFixture->goals_away_team = $fixture->goalsAwayTeam;
-
-        $theFixture->save();
-        $this->info("Updated DB: " . $fixture->fixture_id);
-
-    }
 }

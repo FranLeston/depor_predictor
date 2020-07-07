@@ -12,7 +12,7 @@ class Fixture extends Model
      * @var array
      */
     protected $fillable = [
-        'fixture_id', 'league_id', 'event_date', 'event_timestamp', 'round','status','home_team_id','away_team_id',
+        'fixture_id', 'league_id', 'event_date', 'event_timestamp', 'round', 'is_current','status','home_team_id','away_team_id',
         'goals_home_team', 'goals_away_team'
     ];
 
@@ -27,9 +27,18 @@ class Fixture extends Model
     /**
      * Get the post that owns the comment.
      */
-    public function team()
+    public function homeTeam()
     {
-        return $this->belongsTo('App\Models\Team');
+        return $this->belongsTo('App\Models\Team', 'home_team_id','team_id');
+
+    }
+
+    /**
+     * Get the post that owns the comment.
+     */
+    public function awayTeam()
+    {
+        return $this->belongsTo('App\Models\Team', 'away_team_id','team_id');
 
     }
 
