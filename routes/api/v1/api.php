@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-//Users
+//Auth
 Route::prefix('/auth')->group( function() {
 Route::post('/login' , 'Api\V1\LoginController@login');
 Route::post('/register' , 'Api\V1\LoginController@register');
@@ -30,3 +30,7 @@ Route::prefix('/fixtures')->group( function() {
 Route::middleware('auth:api')->get('/active', 'Api\V1\PredictionController@activeFixtures');
 });
 
+//Predictions
+Route::prefix('/predictions')->group( function() {
+Route::middleware('auth:api')->get('/active', 'Api\V1\PredictionController@activeFixtures');
+});

@@ -17,11 +17,11 @@ class CreateTeamsTable extends Migration
             $table->id();
             $table->integer('team_id')->unique();
             $table->string('name');
-            $table->string('logo');
-            $table->string('country');
-            $table->string('is_national');
-            $table->string('venue_city');
-            $table->string('venue_name');
+            $table->string('logo')->nullable();
+            $table->string('country')->nullable();
+            $table->string('is_national')->nullable();
+            $table->string('venue_city')->nullable();
+            $table->string('venue_name')->nullable();
             $table->timestamps();
         });
     }
