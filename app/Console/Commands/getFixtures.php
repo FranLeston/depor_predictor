@@ -6,6 +6,8 @@ use App\Models\Fixture;
 use Illuminate\Console\Command;
 use App\Models\League;
 use App\Services\FootballApiService;
+use Carbon\Carbon;
+
 
 class getFixtures extends Command
 {
@@ -67,7 +69,7 @@ class getFixtures extends Command
                 'fixture_id'   => $fixture->fixture_id,
             ],[
                 'league_id'     => $fixture->league_id,
-                'event_date' => $fixture->event_date,
+                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d'),
                 'event_timestamp'    =>date('Y-m-d H:i:s', $fixture->event_timestamp),
                 'round'   => $fixture->round,
                 'is_current' => $is_current,
