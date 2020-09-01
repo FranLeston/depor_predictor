@@ -3,22 +3,29 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Fixture;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class FixtureController extends Controller
 {
-
-
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Fixture::all();
+        if ($request->has('status') && $request->input('status') == "NotStarted") {
+            $activeFixtures = Fixture::with('homeTeam', 'awayTeam')->where('status', 'Not Started')->where('is_current', true)->get();
+            return response()->json(['fixtures' => $activeFixtures], 200);
+        } else {
+            $allFixtures = Fixture::all();
+            return response()->json(['fixtures' => $allFixtures], 200);
+        }
     }
 
     /**
@@ -28,9 +35,9 @@ class FixtureController extends Controller
      */
     public function activeFixtures()
     {
-        $activeFixtures =  Fixture::with('homeTeam', 'awayTeam')->where('status', 'Not Started')->where('is_current', true)->get();
+        $activeFixtures = Fixture::with('homeTeam', 'awayTeam')->where('status', 'Not Started')->where('is_current', true)->get();
 
-         return response()->json(['fixtures' => $activeFixtures], 200);
+        return response()->json(['fixtures' => $activeFixtures], 200);
     }
 
     /**
@@ -41,7 +48,8 @@ class FixtureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+       
     }
 
     /**
@@ -52,7 +60,14 @@ class FixtureController extends Controller
      */
     public function show($id)
     {
-        return Fixture::findorfail($id);
+
+        try {
+            $fixture = Fixture::findorfail($id);
+            return response()->json(['fixture' => $fixture], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['Error' => $e->getMessage()], 404);
+        }
+
     }
 
     /**
