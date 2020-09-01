@@ -7,6 +7,7 @@
 require("./bootstrap");
 
 window.Vue = require("vue");
+import store from "./store";
 
 /**
  * The following block of code may be used to automatically register your
@@ -30,5 +31,6 @@ Vue.component(
  */
 
 const app = new Vue({
+    store,
     el: "#app"
 });
