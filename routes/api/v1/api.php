@@ -27,10 +27,12 @@ Route::middleware('auth:api')->post('/logout', 'Api\V1\LoginController@logout');
 
 //Active Round
 Route::prefix('/fixtures')->group( function() {
-Route::middleware('auth:api')->get('/active', 'Api\V1\PredictionController@activeFixtures');
+Route::middleware('auth:api')->get('/', 'Api\V1\FixtureController@index');
+Route::middleware('auth:api')->get('/{id}', 'Api\V1\FixtureController@show');
+Route::middleware('auth:api')->get('/active', 'Api\V1\FixtureController@activeFixtures');
 });
 
 //Predictions
 Route::prefix('/predictions')->group( function() {
-Route::middleware('auth:api')->get('/active', 'Api\V1\PredictionController@activeFixtures');
+//Route::middleware('auth:api')->get('/active', 'Api\V1\PredictionController@activeFixtures');
 });

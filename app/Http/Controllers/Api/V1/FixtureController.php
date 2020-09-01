@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Prediction;
 use App\Models\Fixture;
 
-class PredictionController extends Controller
+class FixtureController extends Controller
 {
 
 
@@ -19,7 +18,7 @@ class PredictionController extends Controller
      */
     public function index()
     {
-        return Prediction::all();
+        return Fixture::all();
     }
 
     /**
@@ -53,7 +52,7 @@ class PredictionController extends Controller
      */
     public function show($id)
     {
-        //
+        return Fixture::findorfail($id);
     }
 
     /**
