@@ -8,6 +8,8 @@ require("./bootstrap");
 
 window.Vue = require("vue");
 import store from "./store";
+import router from "./router";
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -21,8 +23,8 @@ import store from "./store";
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component(
-    "example-component",
-    require("./components/ExampleComponent.vue").default
+    "App",
+    require("./components/App.vue").default
 );
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -31,6 +33,7 @@ Vue.component(
  */
 
 const app = new Vue({
+    router,
     store,
     el: "#app"
 });
