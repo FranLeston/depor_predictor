@@ -1,8 +1,27 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+
+.btn-purple {
+    background-color: $royal-purple;
+    color: #ffffff;
+}
+
+.btn-purple:hover {
+    color: #ffffff;
+    background-color: darken($royal-purple, 3%);
+    border-color: $royal-purple;
+}
+
+.btn-purple:focus,
+.btn-purple.focus {
+    color: #ffffff;
+    background-color: darken($royal-purple, 3%);
+    border-color: $royal-purple;
+    box-shadow: 0 0 0 0.2rem rgba(86, 22, 94, 0.5);
+}

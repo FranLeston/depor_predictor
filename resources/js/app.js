@@ -10,6 +10,14 @@ window.Vue = require("vue");
 import store from "./store";
 import router from "./router";
 
+import Axios from 'axios';
+
+Vue.prototype.$http = Axios;
+const token = localStorage.getItem('token');
+if (token) {
+    Vue.prototype.$http.defaults.headers.common['Authorization'] = "Bearer " + token;
+}
+
 
 /**
  * The following block of code may be used to automatically register your
