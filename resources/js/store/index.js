@@ -1,9 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
+
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+    plugins: [createPersistedState({
+        storage: window.sessionStorage,
+    })],
+
     state: {
         status: '',
         token: localStorage.getItem('token') || '',
@@ -79,6 +85,7 @@ export default new Vuex.Store({
                         console.log(resp);
                         commit('logout');
                         localStorage.removeItem('token');
+                        sessionStorage.clear();
                         delete axios.defaults.headers.common['Authorization'];
                         resolve(resp);
                     })
@@ -109,6 +116,7 @@ export default new Vuex.Store({
     getters: {
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
-        currentFixtures: state => state.currentFixtures
+        currentFixtures: state => state.currentFixtures,
+        currentUser: state => state.user
     }
 });

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Hello Depor!</h1>
+    <h1>My Profile</h1>
   </div>
 </template>
 

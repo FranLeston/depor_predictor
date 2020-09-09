@@ -3,6 +3,9 @@ import VueRouter from "vue-router";
 import Home from "./../components/views/Home.vue";
 import Login from "./../components/views/Login.vue";
 import Register from "./../components/views/Register.vue";
+import Predictions from "./../components/views/Predictions.vue";
+import Profile from "./../components/views/Profile.vue";
+
 import store from "./../store";
 
 Vue.use(VueRouter);
@@ -12,9 +15,23 @@ const routes = [
         path: "/",
         name: "Home",
         component: Home,
-        // meta: {
-        //     requiresAuth: true
-        // }
+
+    },
+    {
+        path: "/predictions",
+        name: "Predictions",
+        component: Predictions,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/profile",
+        name: "Profile",
+        component: Profile,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: "/login",
