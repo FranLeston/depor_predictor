@@ -26,7 +26,7 @@ Route::prefix('/auth')->group(function () {
 
 //Fixtures
 Route::prefix('/fixtures')->group(function () {
-    Route::middleware('auth:api')->get('/', 'Api\V1\FixtureController@index');
+    Route::get('/', 'Api\V1\FixtureController@index');
     Route::middleware('auth:api')->get('/{id}', 'Api\V1\FixtureController@show');
 });
 
