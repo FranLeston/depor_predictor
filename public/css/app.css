@@ -10928,6 +10928,10 @@ a.text-dark:focus {
   }
 }
 
+.navbar-depor {
+  background-color: #004a99;
+}
+
 .btn-purple {
   background-color: #56165e;
   color: #ffffff;

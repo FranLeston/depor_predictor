@@ -20,7 +20,7 @@ class FixtureController extends Controller
     public function index(Request $request)
     {
         if ($request->has('status') && $request->input('status') == "NotStarted") {
-            $activeFixtures = Fixture::with('homeTeam', 'awayTeam')->where('status', 'Not Started')->where('is_current', true)->get();
+            $activeFixtures = Fixture::with('homeTeam', 'awayTeam')->where('status', 'Not Started')->where('is_current', true)->orderBy('event_timestamp', 'ASC')->get();
             return response()->json(['fixtures' => $activeFixtures], 200);
         } else {
             $allFixtures = Fixture::all();
@@ -49,7 +49,6 @@ class FixtureController extends Controller
     public function store(Request $request)
     {
 
-       
     }
 
     /**

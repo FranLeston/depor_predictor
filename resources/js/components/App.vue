@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-depor">
       <router-link class="navbar-brand" to="/">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Escudo_del_Real_Club_Deportivo_de_La_Coru%C3%B1a.png"
@@ -97,7 +97,9 @@
         </ul>
       </div> -->
     </nav>
-    <router-view />
+    <div class="wrapper">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -120,3 +122,9 @@ export default {
   },
 };
 </script>
+
+<style lang="css" scoped>
+.wrapper {
+  margin: 15px 15px 15px 15px;
+}
+</style>

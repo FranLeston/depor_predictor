@@ -7,6 +7,17 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+// body {
+//     background-image: url("https://getfootballnewsspain.com/wp-content/uploads/2020/01/deportivo-la-coruna-v-barcelona-la-liga-scaled.jpg");
+//     background-repeat: no-repeat;
+//     background-attachment: fixed;
+//     background-size: 100% 100%;
+// }
+
+.navbar-depor {
+    background-color: $depor-blue;
+}
+
 .btn-purple {
     background-color: $royal-purple;
     color: #ffffff;
