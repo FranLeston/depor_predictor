@@ -20,7 +20,21 @@ class FixtureController extends Controller
     public function index(Request $request)
     {
         if ($request->has('status') && $request->input('status') == "NotStarted") {
-            $activeFixtures = Fixture::with('homeTeam', 'awayTeam')->where('status', 'Not Started')->where('is_current', true)->orderBy('event_timestamp', 'ASC')->get();
+            $activeFixtures = Fixture::with('homeTeam', 'awayTeam')
+                ->where('status', 'Not Started')
+                ->where('is_current', true)
+                ->where(function ($query) {
+                    $query->where('home_team_id', 538)
+                        ->orWhere('home_team_id', 529)
+                        ->orWhere('home_team_id', 541)
+                        ->orWhere('away_team_id', 538)
+                        ->orWhere('away_team_id', 529)
+                        ->orWhere('away_team_id', 541)
+                        ->orWhere('home_team_id', 716)
+                        ->orWhere('away_team_id', 716);
+                })
+                ->orderBy('event_timestamp', 'ASC')->get();
+
             return response()->json(['fixtures' => $activeFixtures], 200);
         } else {
             $allFixtures = Fixture::all();

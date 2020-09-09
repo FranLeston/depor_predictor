@@ -38965,7 +38965,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card text-center" }, [
     _c("div", { staticClass: "card-header" }, [
-      _vm._v("\n    Jornada Actual\n  ")
+      _vm._v("\n    Partidos En Juego\n  ")
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [

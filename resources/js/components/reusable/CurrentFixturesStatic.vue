@@ -1,7 +1,7 @@
 <template>
   <div class="card text-center">
     <div class="card-header">
-      Jornada Actual
+      Partidos En Juego
     </div>
     <div class="card-body">
       <h5 class="card-title"></h5>

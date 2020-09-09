@@ -3,11 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\Fixture;
-use Illuminate\Console\Command;
 use App\Models\League;
 use App\Services\FootballApiService;
 use Carbon\Carbon;
-
+use Illuminate\Console\Command;
 
 class getFixtures extends Command
 {
@@ -42,10 +41,98 @@ class getFixtures extends Command
      */
     public function handle()
     {
-        $this->getAllFixtures();
+        $this->getAllFirstDivFixtures();
+        $this->getAllSecondDivFixtures();
+        $this->getAllSecondDivBFixtures();
+    }
+    public function getAllSecondDivBFixtures()
+    {
+        $secondDivBLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda B - Group 1")->first();
+        $apiService = new FootballApiService();
+
+        $fixtureResults = $apiService->getAllFixturesByLeagueId($secondDivBLeague->league_id);
+        $fixtures = $fixtureResults->api->fixtures;
+
+        $results = $apiService->getCurrentRoundOfLeague($secondDivBLeague->league_id);
+        $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
+
+        $this->info("Getting Segunda B - Group 1 Fixtures...  Total:" . count($fixtures));
+
+        foreach ($fixtures as $fixture) {
+            if ($currentRound == $fixture->round) {
+                $is_current = true;
+            } else {
+                $is_current = false;
+            }
+
+            Fixture::updateOrCreate([
+
+                'fixture_id' => $fixture->fixture_id,
+            ], [
+                'league_id' => $fixture->league_id,
+                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d'),
+                'event_timestamp' => date('Y-m-d H:i:s', $fixture->event_timestamp),
+                'round' => $fixture->round,
+                'is_current' => $is_current,
+                'status' => $fixture->status,
+                'home_team_id' => $fixture->homeTeam->team_id,
+                'away_team_id' => $fixture->awayTeam->team_id,
+                'goals_home_team' => $fixture->goalsHomeTeam,
+                'goals_away_team' => $fixture->goalsAwayTeam,
+            ]);
+
+            $this->info("Saved to DB: " . $fixture->fixture_id);
+        }
+
+        $this->info("Cool Beans! " . count($fixtures) . " fixtures were updated!");
+
     }
 
-    public function getAllFixtures() {
+    public function getAllFirstDivFixtures()
+    {
+        $firstDivLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Primera Division")->first();
+        $apiService = new FootballApiService();
+
+        $fixtureResults = $apiService->getAllFixturesByLeagueId($firstDivLeague->league_id);
+        $fixtures = $fixtureResults->api->fixtures;
+
+        $results = $apiService->getCurrentRoundOfLeague($firstDivLeague->league_id);
+        $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
+
+        $this->info("Getting Primera Division Fixtures...  Total:" . count($fixtures));
+
+        foreach ($fixtures as $fixture) {
+            if ($currentRound == $fixture->round) {
+                $is_current = true;
+            } else {
+                $is_current = false;
+            }
+
+            Fixture::updateOrCreate([
+
+                'fixture_id' => $fixture->fixture_id,
+            ], [
+                'league_id' => $fixture->league_id,
+                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d'),
+                'event_timestamp' => date('Y-m-d H:i:s', $fixture->event_timestamp),
+                'round' => $fixture->round,
+                'is_current' => $is_current,
+                'status' => $fixture->status,
+                'home_team_id' => $fixture->homeTeam->team_id,
+                'away_team_id' => $fixture->awayTeam->team_id,
+                'goals_home_team' => $fixture->goalsHomeTeam,
+                'goals_away_team' => $fixture->goalsAwayTeam,
+            ]);
+
+            $this->info("Saved to DB: " . $fixture->fixture_id);
+        }
+
+        $this->info("Cool Beans! " . count($fixtures) . " fixtures were updated!");
+
+    }
+
+    public function getAllSecondDivFixtures()
+    {
         $secondDivLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda Division")->first();
         $apiService = new FootballApiService();
 
@@ -55,37 +142,35 @@ class getFixtures extends Command
         $results = $apiService->getCurrentRoundOfLeague($secondDivLeague->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
-        $this->info("Getting Teams...  Total:" . count($fixtures));
+        $this->info("Getting Segunda Division Teams...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
-        if ($currentRound == $fixture->round) {
-            $is_current = true;
-        } else {
-            $is_current = false;
-        }
+            if ($currentRound == $fixture->round) {
+                $is_current = true;
+            } else {
+                $is_current = false;
+            }
 
-         Fixture::updateOrCreate([
+            Fixture::updateOrCreate([
 
-                'fixture_id'   => $fixture->fixture_id,
-            ],[
-                'league_id'     => $fixture->league_id,
+                'fixture_id' => $fixture->fixture_id,
+            ], [
+                'league_id' => $fixture->league_id,
                 'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d'),
-                'event_timestamp'    =>date('Y-m-d H:i:s', $fixture->event_timestamp),
-                'round'   => $fixture->round,
+                'event_timestamp' => date('Y-m-d H:i:s', $fixture->event_timestamp),
+                'round' => $fixture->round,
                 'is_current' => $is_current,
-                'status'       => $fixture->status,
-                'home_team_id'       => $fixture->homeTeam->team_id,
-                'away_team_id'       => $fixture->awayTeam->team_id,
-                'goals_home_team'   => $fixture->goalsHomeTeam,
-                'goals_away_team'    => $fixture->goalsAwayTeam
+                'status' => $fixture->status,
+                'home_team_id' => $fixture->homeTeam->team_id,
+                'away_team_id' => $fixture->awayTeam->team_id,
+                'goals_home_team' => $fixture->goalsHomeTeam,
+                'goals_away_team' => $fixture->goalsAwayTeam,
             ]);
 
-
-
             $this->info("Saved to DB: " . $fixture->fixture_id);
-           }
+        }
 
-           $this->info("Cool Beans! " .count($fixtures) ." fixtures were updated!");
+        $this->info("Cool Beans! " . count($fixtures) . " fixtures were updated!");
 
     }
 

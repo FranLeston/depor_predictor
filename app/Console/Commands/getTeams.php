@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\League;
 use App\Models\Team;
 use App\Services\FootballApiService;
+use Illuminate\Console\Command;
 
 class getTeams extends Command
 {
@@ -40,34 +40,89 @@ class getTeams extends Command
      */
     public function handle()
     {
+        $this->getSpainFirstDivTeams();
         $this->getSpainSecondDivTeams();
+        $this->getSpainSecondBDivTeams();
+
     }
 
-    public function getSpainSecondDivTeams() {
-        $secondDivLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda Division")->first();
+    public function getSpainFirstDivTeams()
+    {
+        $firstDivLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Primera Division")->first();
         $apiService = new FootballApiService();
-        $results = $apiService->getTeamsByLeague($secondDivLeague->league_id);
+        $results = $apiService->getTeamsByLeague($firstDivLeague->league_id);
 
         $teams = $results->api->teams;
-        $this->info("Getting Teams...  Total:" . count($teams));
+        $this->info("Getting Spain First Div Teams...  Total:" . count($teams));
 
         foreach ($teams as $team) {
 
             $theTeam = Team::where('team_id', $team->team_id)->first();
 
-            if (isset($theTeam)){
+            if (isset($theTeam)) {
                 $this->updateDatabase($theTeam, $team);
             } else {
                 $this->saveToDatabase($team);
 
             }
 
-           }
-           $this->info("Cool Beans! " .count($teams) ." Teams were updated!");
+        }
+        $this->info("Cool Beans! " . count($teams) . " Teams were updated!");
 
     }
 
-    public function saveToDatabase($team)  {
+    public function getSpainSecondDivTeams()
+    {
+        $secondDivLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda Division")->first();
+        $apiService = new FootballApiService();
+        $results = $apiService->getTeamsByLeague($secondDivLeague->league_id);
+
+        $teams = $results->api->teams;
+        $this->info("Getting Spain Second Div Teams...  Total:" . count($teams));
+
+        foreach ($teams as $team) {
+
+            $theTeam = Team::where('team_id', $team->team_id)->first();
+
+            if (isset($theTeam)) {
+                $this->updateDatabase($theTeam, $team);
+            } else {
+                $this->saveToDatabase($team);
+
+            }
+
+        }
+        $this->info("Cool Beans! " . count($teams) . " Teams were updated!");
+
+    }
+
+    public function getSpainSecondBDivTeams()
+    {
+        $secondDivBLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda B - Group 1")->first();
+        $apiService = new FootballApiService();
+        $results = $apiService->getTeamsByLeague($secondDivBLeague->league_id);
+
+        $teams = $results->api->teams;
+        $this->info("Getting Spain Second Div Teams GROUP 1...  Total:" . count($teams));
+
+        foreach ($teams as $team) {
+
+            $theTeam = Team::where('team_id', $team->team_id)->first();
+
+            if (isset($theTeam)) {
+                $this->updateDatabase($theTeam, $team);
+            } else {
+                $this->saveToDatabase($team);
+
+            }
+
+        }
+        $this->info("Cool Beans! " . count($teams) . " Teams were updated!");
+
+    }
+
+    public function saveToDatabase($team)
+    {
         $dbTeam = new Team;
 
         $dbTeam->team_id = $team->team_id;
@@ -82,7 +137,8 @@ class getTeams extends Command
         $this->info("Saved to DB: " . $team->team_id);
     }
 
-    public function updateDatabase($theTeam, $team)  {
+    public function updateDatabase($theTeam, $team)
+    {
 
         $theTeam->team_id = $team->team_id;
         $theTeam->name = $team->name;
