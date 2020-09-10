@@ -19,27 +19,33 @@ class FixtureController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('status') && $request->input('status') == "NotStarted") {
-            $activeFixtures = Fixture::with('homeTeam', 'awayTeam')
-                ->where('status', 'Not Started')
-                ->where('is_current', true)
-                ->where(function ($query) {
-                    $query->where('home_team_id', 538)
-                        ->orWhere('home_team_id', 529)
-                        ->orWhere('home_team_id', 541)
-                        ->orWhere('away_team_id', 538)
-                        ->orWhere('away_team_id', 529)
-                        ->orWhere('away_team_id', 541)
-                        ->orWhere('home_team_id', 716)
-                        ->orWhere('away_team_id', 716);
-                })
-                ->orderBy('event_timestamp', 'ASC')->get();
 
-            return response()->json(['fixtures' => $activeFixtures], 200);
-        } else {
-            $allFixtures = Fixture::all();
-            return response()->json(['fixtures' => $allFixtures], 200);
+
+
+        $query = Fixture::with('homeTeam', 'awayTeam');
+
+        if ($request->has('status')) {
+            $query->where(function ($query) use ($request) {
+                  $query->where('status', $request->input('status'));
+            });
         }
+
+        if ($request->has('league_id')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('league_id', $request->input('league_id'));
+          });
+        }
+
+        if ($request->has('is_current')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('is_current', $request->input('is_current'));
+          });
+        }
+
+        $fixtures = $query->get();
+
+        return response()->json(['fixtures' => $fixtures], 200);
+
     }
 
     /**

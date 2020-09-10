@@ -47,6 +47,7 @@ class getLeagues extends Command
 
         foreach ($leagues as $league) {
 
+
         $theLeague = League::where('league_id', $league->league_id)->first();
 
         if (isset($theLeague)){
@@ -113,4 +114,7 @@ class getLeagues extends Command
         $theLeague->save();
         $this->info("Update League in DB: " . $league->league_id);
     }
+
+
+
 }

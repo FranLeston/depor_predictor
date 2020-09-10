@@ -7,6 +7,7 @@ use App\Models\League;
 use App\Services\FootballApiService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use App\Models\Round;
 
 class getFixtures extends Command
 {
@@ -41,9 +42,12 @@ class getFixtures extends Command
      */
     public function handle()
     {
+
         $this->getAllFirstDivFixtures();
         $this->getAllSecondDivFixtures();
         $this->getAllSecondDivBFixtures();
+        //$this->updateRounds();
+
     }
     public function getAllSecondDivBFixtures()
     {
@@ -142,6 +146,7 @@ class getFixtures extends Command
         $results = $apiService->getCurrentRoundOfLeague($secondDivLeague->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
+
         $this->info("Getting Segunda Division Teams...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
@@ -173,5 +178,55 @@ class getFixtures extends Command
         $this->info("Cool Beans! " . count($fixtures) . " fixtures were updated!");
 
     }
+
+    public function updateRoundsByLeague($league_id, $league_name)
+    {
+        $apiService = new FootballApiService();
+
+        $roundsResults = $apiService->getAllRoundsOfLeague($league_id);
+        $rounds = $roundsResults->api->fixtures;
+
+        $results = $apiService->getCurrentRoundOfLeague($league_id);
+        $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
+
+        $this->info("Getting Rounds...  Total:" . count($rounds));
+
+        foreach ($rounds as $round => $value) {
+            $formatRound = str_replace('_', ' ', $value);
+
+            if ($currentRound == $formatRound) {
+                $is_current = true;
+            } else {
+                $is_current = false;
+            }
+
+            Round::updateOrCreate([
+
+                'league_name' => $league_name,
+            ], [
+                'league_id' => $league_id,
+                'round' => $formatRound,
+                'is_current' => $is_current,
+
+            ]);
+
+            $this->info("Saved to DB: ");
+        }
+
+        $this->info("Cool Beans! " . count($rounds) . " rounds were updated!");
+
+    }
+
+    public function updateRounds() {
+        $leagues = League::all();
+
+        if (isset($leagues)) {
+            foreach ($leagues as $key => $league) {
+                $this->updateRoundsByLeague($league->league_id, $league->name);
+            }
+        }
+    }
+
+
 
 }

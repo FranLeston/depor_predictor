@@ -66,6 +66,17 @@ class FootballApiService
     return $results;
   }
 
+  public function getAllRoundsOfLeague($league_id)
+  {
+    $response =Http::withHeaders([
+        'X-RapidAPI-Key' => $this->apiKey,
+    ])->get($this->endpoint . 'fixtures/rounds/' . $league_id);
+
+
+    $results = json_decode($response->body());
+    return $results;
+  }
+
   public function getFixturesByCurrentRound($league_id, $currentRound)
   {
     $response =Http::withHeaders([

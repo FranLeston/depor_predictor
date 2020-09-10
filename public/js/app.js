@@ -56904,7 +56904,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       var commit = _ref4.commit;
       return new Promise(function (resolve, reject) {
         axios({
-          url: 'http://localhost:8000/api/v1/fixtures?status=NotStarted',
+          url: 'http://localhost:8000/api/v1/fixtures?league_id=2847&is_current=1&status=Not%20Started',
           data: {},
           method: 'GET'
         }).then(function (resp) {
@@ -56955,8 +56955,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/fran/projects/depor_predictor/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/fran/projects/depor_predictor/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/fran/projects/depor/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/fran/projects/depor/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
