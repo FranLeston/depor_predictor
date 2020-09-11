@@ -4,10 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\Fixture;
 use App\Models\League;
+use App\Models\Round;
 use App\Services\FootballApiService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use App\Models\Round;
 
 class getFixtures extends Command
 {
@@ -46,7 +46,6 @@ class getFixtures extends Command
         $this->getAllFirstDivFixtures();
         $this->getAllSecondDivFixtures();
         $this->getAllSecondDivBFixtures();
-        //$this->updateRounds();
 
     }
     public function getAllSecondDivBFixtures()
@@ -60,6 +59,7 @@ class getFixtures extends Command
         $results = $apiService->getCurrentRoundOfLeague($secondDivBLeague->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
+        $this->updateRoundsByLeague($secondDivBLeague);
         $this->info("Getting Segunda B - Group 1 Fixtures...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
@@ -102,6 +102,8 @@ class getFixtures extends Command
 
         $results = $apiService->getCurrentRoundOfLeague($firstDivLeague->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
+
+        $this->updateRoundsByLeague($firstDivLeague);
 
         $this->info("Getting Primera Division Fixtures...  Total:" . count($fixtures));
 
@@ -146,7 +148,7 @@ class getFixtures extends Command
         $results = $apiService->getCurrentRoundOfLeague($secondDivLeague->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
-
+        $this->updateRoundsByLeague($secondDivLeague);
         $this->info("Getting Segunda Division Teams...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
@@ -179,14 +181,14 @@ class getFixtures extends Command
 
     }
 
-    public function updateRoundsByLeague($league_id, $league_name)
+    public function updateRoundsByLeague($league)
     {
         $apiService = new FootballApiService();
 
-        $roundsResults = $apiService->getAllRoundsOfLeague($league_id);
+        $roundsResults = $apiService->getAllRoundsOfLeague($league->league_id);
         $rounds = $roundsResults->api->fixtures;
 
-        $results = $apiService->getCurrentRoundOfLeague($league_id);
+        $results = $apiService->getCurrentRoundOfLeague($league->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
         $this->info("Getting Rounds...  Total:" . count($rounds));
@@ -202,10 +204,13 @@ class getFixtures extends Command
 
             Round::updateOrCreate([
 
-                'league_name' => $league_name,
+                'round' => $league->league_id . "_" . $formatRound,
             ], [
-                'league_id' => $league_id,
-                'round' => $formatRound,
+                'league_id' => $league->league_id,
+                'league_name' => $league->name,
+                'season_start' => $league->season_start,
+                'season_end' => $league->season_end,
+                'type' => $league->type,
                 'is_current' => $is_current,
 
             ]);
@@ -217,16 +222,18 @@ class getFixtures extends Command
 
     }
 
-    public function updateRounds() {
-        $leagues = League::all();
+    // public function updateRounds()
+    // {
 
-        if (isset($leagues)) {
-            foreach ($leagues as $key => $league) {
-                $this->updateRoundsByLeague($league->league_id, $league->name);
-            }
-        }
-    }
+    //     $spanish1Div = League::where(country)
 
+    //     $leagues = League::all();
 
+    //     if (isset($leagues)) {
+    //         foreach ($leagues as $key => $league) {
+    //             $this->updateRoundsByLeague($league->league_id, $league->name);
+    //         }
+    //     }
+    // }
 
 }

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
+import { each } from 'jquery';
 
 
 Vue.use(Vuex);
@@ -15,13 +16,13 @@ export default new Vuex.Store({
         token: localStorage.getItem('token') || '',
         user: {},
         currentFixtures: {},
+        currentRound: '',
     },
     mutations: {
         auth_request (state) {
             state.status = 'loading';
         },
         auth_success (state, payload) {
-            console.log('this is the user: ', payload.user);
             state.status = 'success';
             state.token = payload.token;
             state.user = payload.user;
@@ -36,6 +37,9 @@ export default new Vuex.Store({
         },
         setCurrentFixtures (state, fixtures) {
             state.currentFixtures = fixtures;
+        },
+        setCurrentRound (state, round) {
+            state.currentRound = round;
         }
     },
     actions: {
@@ -82,7 +86,6 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 axios({ url: 'http://localhost:8000/api/v1/auth/logout', data: {}, method: 'POST' })
                     .then(resp => {
-                        console.log(resp);
                         commit('logout');
                         localStorage.removeItem('token');
                         sessionStorage.clear();
@@ -101,9 +104,29 @@ export default new Vuex.Store({
                     url: 'http://localhost:8000/api/v1/fixtures?league_id=2847&is_current=1&status=Not%20Started', data: {}, method: 'GET'
                 })
                     .then(resp => {
-                        console.log(resp.data.fixtures);
                         const fixtures = resp.data.fixtures;
-                        commit('setCurrentFixtures', resp.data.fixtures);
+                        commit('setCurrentFixtures', fixtures);
+                        resolve(resp);
+                    })
+                    .catch(err => {
+                        commit('auth_error');
+                        reject(err);
+                    });
+            });
+        },
+        getCurrentRound ({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: 'http://localhost:8000/api/v1/rounds?league_id=2847&is_current=1', data: {}, method: 'GET'
+                })
+                    .then(resp => {
+                        console.log(resp.data.rounds);
+                        const rounds = resp.data.rounds;
+                        rounds.forEach(round => {
+                            let roundName = round.round.split("_");
+                            round.round = roundName[1];
+                        });
+                        commit('setCurrentRound', rounds);
                         resolve(resp);
                     })
                     .catch(err => {
@@ -117,6 +140,7 @@ export default new Vuex.Store({
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
         currentFixtures: state => state.currentFixtures,
+        currentRound: state => state.currentRound,
         currentUser: state => state.user
     }
 });

@@ -1,7 +1,7 @@
 <template>
   <div class="card text-center">
     <div class="card-header">
-      Partidos En Juego
+      Partidos En Juego - {{ currentRound[0].round }}
     </div>
     <div class="card-body">
       <h5 class="card-title"></h5>
@@ -87,7 +87,6 @@
 <script>
 export default {
   mounted() {
-    console.log("comp mounted");
     this.$store.dispatch("getCurrentFixtures").then((resp) => {
       console.log(resp.data.fixtures);
     });
@@ -95,6 +94,9 @@ export default {
   computed: {
     currentFixtures: function () {
       return this.$store.getters.currentFixtures;
+    },
+    currentRound: function () {
+      return this.$store.getters.currentRound;
     },
   },
 };

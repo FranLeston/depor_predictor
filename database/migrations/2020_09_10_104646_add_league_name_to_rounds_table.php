@@ -14,7 +14,11 @@ class AddLeagueNameToRoundsTable extends Migration
     public function up()
     {
         Schema::table('rounds', function (Blueprint $table) {
-            $table->string('league_name')->after('league_id');
+            $table->string('league_name')->after('league_id')->nullable();
+            $table->dateTime('season_start')->after('league_name')->nullable();
+            $table->dateTime('season_end')->after('season_start')->nullable();
+            $table->string('type')->after('season_end')->nullable();
+
         });
     }
 
@@ -27,6 +31,10 @@ class AddLeagueNameToRoundsTable extends Migration
     {
         Schema::table('rounds', function (Blueprint $table) {
             $table->dropColumn('league_name');
+            $table->dropColumn('season_start');
+            $table->dropColumn('season_end');
+            $table->dropColumn('type');
+
         });
     }
 }

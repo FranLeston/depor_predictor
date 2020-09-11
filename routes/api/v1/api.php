@@ -36,3 +36,9 @@ Route::prefix('/predictions')->group(function () {
     Route::middleware('auth:api')->post('/', 'Api\V1\PredictionController@store');
     Route::middleware('auth:api')->put('/{id}', 'Api\V1\PredictionController@update');
 });
+
+//Rounds
+Route::prefix('/rounds')->group(function () {
+    Route::get('/', 'Api\V1\RoundController@index');
+
+});

@@ -2132,7 +2132,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log("comp mounted");
     this.$store.dispatch("getCurrentFixtures").then(function (resp) {
       console.log(resp.data.fixtures);
     });
@@ -2140,6 +2139,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     currentFixtures: function currentFixtures() {
       return this.$store.getters.currentFixtures;
+    },
+    currentRound: function currentRound() {
+      return this.$store.getters.currentRound;
     }
   }
 });
@@ -2170,6 +2172,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     currentFixturesStatic: _reusable_CurrentFixturesStatic__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  mounted: function mounted() {
+    this.$store.dispatch("getCurrentRound").then(function (resp) {
+      console.log(resp.data.rounds);
+    });
+  },
+  computed: {
+    currentRound: function currentRound() {
+      return this.$store.getters.currentRound;
+    }
   }
 });
 
@@ -38965,7 +38977,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card text-center" }, [
     _c("div", { staticClass: "card-header" }, [
-      _vm._v("\n    Partidos En Juego\n  ")
+      _vm._v(
+        "\n    Partidos En Juego - " +
+          _vm._s(_vm.currentRound[0].round) +
+          "\n  "
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
@@ -56798,6 +56814,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vuex_persistedstate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex-persistedstate */ "./node_modules/vuex-persistedstate/dist/vuex-persistedstate.es.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -56810,14 +56829,14 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     status: '',
     token: localStorage.getItem('token') || '',
     user: {},
-    currentFixtures: {}
+    currentFixtures: {},
+    currentRound: ''
   },
   mutations: {
     auth_request: function auth_request(state) {
       state.status = 'loading';
     },
     auth_success: function auth_success(state, payload) {
-      console.log('this is the user: ', payload.user);
       state.status = 'success';
       state.token = payload.token;
       state.user = payload.user;
@@ -56832,6 +56851,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setCurrentFixtures: function setCurrentFixtures(state, fixtures) {
       state.currentFixtures = fixtures;
+    },
+    setCurrentRound: function setCurrentRound(state, round) {
+      state.currentRound = round;
     }
   },
   actions: {
@@ -56888,7 +56910,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           data: {},
           method: 'POST'
         }).then(function (resp) {
-          console.log(resp);
           commit('logout');
           localStorage.removeItem('token');
           sessionStorage.clear();
@@ -56908,9 +56929,30 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           data: {},
           method: 'GET'
         }).then(function (resp) {
-          console.log(resp.data.fixtures);
           var fixtures = resp.data.fixtures;
-          commit('setCurrentFixtures', resp.data.fixtures);
+          commit('setCurrentFixtures', fixtures);
+          resolve(resp);
+        })["catch"](function (err) {
+          commit('auth_error');
+          reject(err);
+        });
+      });
+    },
+    getCurrentRound: function getCurrentRound(_ref5) {
+      var commit = _ref5.commit;
+      return new Promise(function (resolve, reject) {
+        axios({
+          url: 'http://localhost:8000/api/v1/rounds?league_id=2847&is_current=1',
+          data: {},
+          method: 'GET'
+        }).then(function (resp) {
+          console.log(resp.data.rounds);
+          var rounds = resp.data.rounds;
+          rounds.forEach(function (round) {
+            var roundName = round.round.split("_");
+            round.round = roundName[1];
+          });
+          commit('setCurrentRound', rounds);
           resolve(resp);
         })["catch"](function (err) {
           commit('auth_error');
@@ -56928,6 +56970,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     currentFixtures: function currentFixtures(state) {
       return state.currentFixtures;
+    },
+    currentRound: function currentRound(state) {
+      return state.currentRound;
     },
     currentUser: function currentUser(state) {
       return state.user;
@@ -56955,8 +57000,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/fran/projects/depor/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/fran/projects/depor/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/fran/projects/depor_predictor/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/fran/projects/depor_predictor/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -12,7 +12,7 @@ class Round extends Model
      * @var array
      */
     protected $fillable = [
-        'league_id', 'league_name', 'round', 'is_current',
+        'league_id', 'league_name', 'round', 'season_start', 'season_end', 'type', 'is_current',
     ];
 
     /**

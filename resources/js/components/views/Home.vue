@@ -14,6 +14,16 @@ export default {
   components: {
     currentFixturesStatic,
   },
+  mounted() {
+    this.$store.dispatch("getCurrentRound").then((resp) => {
+      console.log(resp.data.rounds);
+    });
+  },
+  computed: {
+    currentRound: function () {
+      return this.$store.getters.currentRound;
+    },
+  },
 };
 </script>
 
