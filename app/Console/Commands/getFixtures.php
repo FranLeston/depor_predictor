@@ -74,8 +74,9 @@ class getFixtures extends Command
                 'fixture_id' => $fixture->fixture_id,
             ], [
                 'league_id' => $fixture->league_id,
-                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d'),
-                'event_timestamp' => date('Y-m-d H:i:s', $fixture->event_timestamp),
+                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d H:i:s'),
+                'event_timestamp' => Carbon::createFromTimestamp($fixture->event_timestamp)->format('Y-m-d H:i:s'),
+
                 'round' => $fixture->round,
                 'is_current' => $is_current,
                 'status' => $fixture->status,
@@ -119,8 +120,8 @@ class getFixtures extends Command
                 'fixture_id' => $fixture->fixture_id,
             ], [
                 'league_id' => $fixture->league_id,
-                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d'),
-                'event_timestamp' => date('Y-m-d H:i:s', $fixture->event_timestamp),
+                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d H:i:s'),
+                'event_timestamp' => Carbon::createFromTimestamp($fixture->event_timestamp)->format('Y-m-d H:i:s'),
                 'round' => $fixture->round,
                 'is_current' => $is_current,
                 'status' => $fixture->status,
@@ -163,8 +164,8 @@ class getFixtures extends Command
                 'fixture_id' => $fixture->fixture_id,
             ], [
                 'league_id' => $fixture->league_id,
-                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d'),
-                'event_timestamp' => date('Y-m-d H:i:s', $fixture->event_timestamp),
+                'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d H:i:s'),
+                'event_timestamp' => Carbon::createFromTimestamp($fixture->event_timestamp)->format('Y-m-d H:i:s'),
                 'round' => $fixture->round,
                 'is_current' => $is_current,
                 'status' => $fixture->status,

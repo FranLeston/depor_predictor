@@ -16,9 +16,7 @@
               <div class="row no-gutters">
                 <div class="col">
                   <span>{{
-                    new Date(
-                      fixture.event_timestamp + " GMT"
-                    ).toLocaleDateString()
+                    new Date(fixture.event_date).toLocaleDateString()
                   }}</span>
                 </div>
                 <div class="col">
@@ -34,9 +32,7 @@
                 </div>
                 <div class="col">
                   <span>{{
-                    new Date(
-                      fixture.event_timestamp + " GMT"
-                    ).toLocaleTimeString()
+                    new Date(fixture.event_date).toLocaleTimeString()
                   }}</span>
                 </div>
               </div>

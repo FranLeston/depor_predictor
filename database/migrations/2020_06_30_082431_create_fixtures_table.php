@@ -17,8 +17,8 @@ class CreateFixturesTable extends Migration
             $table->id();
             $table->integer('fixture_id');
             $table->foreignId('league_id')->constrained();
-            $table->date('event_date');
-            $table->timestamp('event_timestamp');
+            $table->dateTime('event_date');
+            $table->timestamp('event_timestamp')->nullable();
             $table->string('round');
             $table->string('status');
             $table->integer('home_team_id');

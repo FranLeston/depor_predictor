@@ -12,8 +12,8 @@ class Fixture extends Model
      * @var array
      */
     protected $fillable = [
-        'fixture_id', 'league_id', 'event_date', 'event_timestamp', 'round', 'is_current','status','home_team_id','away_team_id',
-        'goals_home_team', 'goals_away_team'
+        'fixture_id', 'league_id', 'event_date', 'event_timestamp', 'round', 'is_current', 'status', 'home_team_id', 'away_team_id',
+        'goals_home_team', 'goals_away_team',
     ];
 
     /**
@@ -29,7 +29,7 @@ class Fixture extends Model
      */
     public function homeTeam()
     {
-        return $this->belongsTo('App\Models\Team', 'home_team_id','team_id');
+        return $this->belongsTo('App\Models\Team', 'home_team_id', 'team_id');
 
     }
 
@@ -38,8 +38,16 @@ class Fixture extends Model
      */
     public function awayTeam()
     {
-        return $this->belongsTo('App\Models\Team', 'away_team_id','team_id');
+        return $this->belongsTo('App\Models\Team', 'away_team_id', 'team_id');
 
+    }
+
+    /**
+     * Get the predictions for the user.
+     */
+    public function predictions()
+    {
+        return $this->hasMany('App\Models\Prediction', 'fixture_id', 'fixture_id');
     }
 
 }

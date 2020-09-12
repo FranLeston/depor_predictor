@@ -92,7 +92,7 @@ class FootballApiService
   {
     $response =Http::withHeaders([
         'X-RapidAPI-Key' => $this->apiKey,
-    ])->get($this->endpoint . 'fixtures/league/'. $league_id);
+    ])->get($this->endpoint . 'fixtures/league/'. $league_id . "?timezone=Europe/Madrid");
 
 
     $results = json_decode($response->body());

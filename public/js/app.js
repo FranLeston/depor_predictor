@@ -2126,10 +2126,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.$store.dispatch("getCurrentFixtures").then(function (resp) {
@@ -38999,9 +38995,7 @@ var render = function() {
                     _c("span", [
                       _vm._v(
                         _vm._s(
-                          new Date(
-                            fixture.event_timestamp + " GMT"
-                          ).toLocaleDateString()
+                          new Date(fixture.event_date).toLocaleDateString()
                         )
                       )
                     ])
@@ -39037,9 +39031,7 @@ var render = function() {
                     _c("span", [
                       _vm._v(
                         _vm._s(
-                          new Date(
-                            fixture.event_timestamp + " GMT"
-                          ).toLocaleTimeString()
+                          new Date(fixture.event_date).toLocaleTimeString()
                         )
                       )
                     ])

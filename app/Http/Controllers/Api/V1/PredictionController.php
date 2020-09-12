@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Fixture;
 use App\Models\Prediction;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -15,15 +16,39 @@ class PredictionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //Display all Predictions for the current user
 
         $user_id = Auth::user()->id;
 
-        $predictions = Prediction::where('user_id', $user_id)->get();
+        $fixtures = Fixture::with('predictions')->with('homeTeam', 'awayTeam')
+            ->with(['predictions' => function ($query) use ($user_id) {
+                $query->where('user_id', '=', $user_id);
+            }]);
 
-        return response()->json(['predictions' => $predictions], 200);
+        if ($request->has('status')) {
+            $fixtures->where(function ($query) use ($request) {
+                $query->where('status', $request->input('status'));
+            });
+        }
+
+        if ($request->has('league_id')) {
+            $fixtures->where(function ($query) use ($request) {
+                $query->where('league_id', $request->input('league_id'));
+            });
+        }
+
+        if ($request->has('is_current')) {
+            $fixtures->where(function ($query) use ($request) {
+                $query->where('is_current', $request->input('is_current'));
+            });
+        }
+
+        $results = $fixtures->orderBy('event_timestamp', 'ASC')->get();
+
+        return response()->json(['predictions' => $results], 200);
+
     }
 
     /**
