@@ -1,10 +1,17 @@
 <template>
   <div>
     <h1>my predictions</h1>
+    <SinglePredictionComponent></SinglePredictionComponent>
   </div>
 </template>
 <script>
-export default {};
+import SinglePredictionComponent from "./../reusable/SinglePredictionComponent";
+
+export default {
+  components: {
+    SinglePredictionComponent,
+  },
+};
 </script>
 <style>
 </style>

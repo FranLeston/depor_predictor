@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
-import { each } from 'jquery';
 
 
 Vue.use(Vuex);
@@ -17,6 +16,7 @@ export default new Vuex.Store({
         user: {},
         currentFixtures: {},
         currentRound: '',
+        predictions: {},
     },
     mutations: {
         auth_request (state) {
@@ -40,6 +40,9 @@ export default new Vuex.Store({
         },
         setCurrentRound (state, round) {
             state.currentRound = round;
+        },
+        setPredictions (state, predictions) {
+            state.predictions = predictions;
         }
     },
     actions: {
@@ -120,7 +123,6 @@ export default new Vuex.Store({
                     url: 'http://localhost:8000/api/v1/rounds?league_id=2847&is_current=1', data: {}, method: 'GET'
                 })
                     .then(resp => {
-                        console.log(resp.data.rounds);
                         const rounds = resp.data.rounds;
                         rounds.forEach(round => {
                             let roundName = round.round.split("_");
@@ -135,12 +137,58 @@ export default new Vuex.Store({
                     });
             });
         },
+        getPredictions ({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: 'http://localhost:8000/api/v1/predictions?league_id=2847&is_current=1', data: {}, method: 'GET'
+                })
+                    .then(resp => {
+                        let fixtures = resp.data.predictions;
+                        fixtures.forEach(fixture => {
+                            if (!fixture.predictions.length) {
+                                let predictions = [
+                                    {
+                                        home_team_prediction: null,
+                                        away_team_prediction: null,
+                                        fixture_id: fixture.fixture_id
+                                    }
+                                ];
+                                fixture.predictions = predictions;
+                            }
+                        });
+                        commit('setPredictions', fixtures);
+                        resolve(fixtures);
+                    })
+                    .catch(err => {
+                        commit('auth_error');
+                        reject(err);
+                    });
+            });
+        },
+        savePrediction ({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: 'http://localhost:8000/api/v1/predictions', ...data, method: 'POST'
+                })
+                    .then(resp => {
+                        console.log('this is the saved prediction', resp);
+
+                        //commit('setPredictions', fixtures);
+                        resolve(resp);
+                    })
+                    .catch(err => {
+                        commit('auth_error');
+                        reject(err);
+                    });
+            });
+        },
     },
     getters: {
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
         currentFixtures: state => state.currentFixtures,
         currentRound: state => state.currentRound,
-        currentUser: state => state.user
+        currentUser: state => state.user,
+        predictions: state => state.predictions
     }
 });

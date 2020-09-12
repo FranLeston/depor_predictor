@@ -3,7 +3,7 @@
     <div class="col-7">
       <p>main view</p>
     </div>
-    <div class="col-5">
+    <div class="col-md-5">
       <currentFixturesStatic></currentFixturesStatic>
     </div>
   </div>
@@ -15,9 +15,7 @@ export default {
     currentFixturesStatic,
   },
   mounted() {
-    this.$store.dispatch("getCurrentRound").then((resp) => {
-      console.log(resp.data.rounds);
-    });
+    this.$store.dispatch("getCurrentRound").then((resp) => {});
   },
   computed: {
     currentRound: function () {

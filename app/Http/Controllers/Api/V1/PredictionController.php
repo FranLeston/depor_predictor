@@ -66,12 +66,16 @@ class PredictionController extends Controller
             'away_team_prediction' => ['required', 'integer'],
         ]);
 
-        $prediction = Prediction::create([
-            'user_id' => Auth::user()->id,
+        $prediction = Prediction::updateOrCreate([
+
             'fixture_id' => $data['fixture_id'],
-            'home_team_prediction' => $data['home_team_prediction'],
-            'away_team_prediction' => $data['away_team_prediction'],
-        ]);
+            'user_id' => Auth::user()->id,
+        ],
+            ['user_id' => Auth::user()->id,
+                'fixture_id' => $data['fixture_id'],
+                'home_team_prediction' => $data['home_team_prediction'],
+                'away_team_prediction' => $data['away_team_prediction'],
+            ]);
 
         return response()->json(['prediction' => $prediction], 200);
     }

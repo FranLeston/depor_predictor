@@ -1,0 +1,131 @@
+<template>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div
+        v-for="(prediction, index) in predictions"
+        :key="index"
+        class="col-md-6 my-3"
+      >
+        <form @submit.prevent="savePrediction(index)">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">{{ prediction.status }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                {{
+                  new Date(prediction.event_date).toLocaleDateString() +
+                  " - " +
+                  new Date(prediction.event_date).toLocaleTimeString()
+                }}
+              </h6>
+              <div class="card-text">
+                <div class="row">
+                  <div class="col-4">
+                    <figure>
+                      <img
+                        :src="prediction.home_team.logo"
+                        width="50"
+                        height="50"
+                      />
+                      <figcaption>{{ prediction.home_team.name }}</figcaption>
+                    </figure>
+                    <input
+                      v-bind:readonly="prediction.status != 'Not Started'"
+                      v-model="prediction.predictions[0].home_team_prediction"
+                      type="number"
+                      class="form-control form-control-sm"
+                      min="0"
+                    />
+                  </div>
+                  <div class="col-4">
+                    <span
+                      v-if="
+                        prediction.goals_home_team != null &&
+                        prediction.goals_away_team != null
+                      "
+                    >
+                      {{
+                        prediction.goals_home_team +
+                        " - " +
+                        prediction.goals_away_team
+                      }}
+                    </span>
+                    <span v-else>0 - 0 </span>
+                  </div>
+                  <div class="col-4">
+                    <figure>
+                      <img
+                        :src="prediction.away_team.logo"
+                        width="50"
+                        height="50"
+                      />
+                      <figcaption>{{ prediction.away_team.name }}</figcaption>
+                    </figure>
+                    <input
+                      v-bind:readonly="prediction.status != 'Not Started'"
+                      v-model="prediction.predictions[0].away_team_prediction"
+                      type="number"
+                      class="form-control form-control-sm"
+                      min="0"
+                    />
+                  </div>
+                </div>
+              </div>
+              <button
+                v-if="prediction.status === 'Not Started'"
+                type="submit"
+                class="btn btn-purple my-3"
+              >
+                Guardar
+              </button>
+              <button v-else type="submit" class="btn btn-danger my-3" disabled>
+                Guardar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      errors: "",
+    };
+  },
+  mounted() {
+    this.$store.dispatch("getPredictions").then((resp) => {
+      console.log(resp);
+    });
+  },
+  computed: {
+    predictions: function () {
+      return this.$store.getters.predictions;
+    },
+  },
+  methods: {
+    savePrediction: function (index) {
+      let data = {
+        fixture_id: this.predictions[index].fixture_id,
+        home_team_prediction: this.predictions[index].predictions[0]
+          .home_team_prediction,
+        away_team_prediction: this.predictions[index].predictions[0]
+          .away_team_prediction,
+      };
+
+      this.$store
+        .dispatch("savePrediction", {
+          data,
+        })
+        .then((resp) => {
+          console.log(resp);
+        });
+    },
+  },
+};
+</script>
+
+<style lang="css" scoped>
+</style>

@@ -111,7 +111,6 @@ export default {
       this.$store
         .dispatch("register", data)
         .then((resp) => {
-          console.log(resp);
           this.$router.push("/login");
         })
         .catch((err) => {
