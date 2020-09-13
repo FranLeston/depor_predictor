@@ -3,38 +3,35 @@
     <div class="card-header">
       Partidos En Juego - {{ currentRound[0].round }}
     </div>
-    <div class="card-body">
-      <h5 class="card-title"></h5>
+    <div class="card-body p-0">
       <div class="card-text">
         <ul class="list-group list-group-flush">
           <li
             v-for="(fixture, index) in currentFixtures"
             :key="index"
-            class="list-group-item"
+            class="list-group-item mx-0 my-0 px-0"
           >
-            <div class="container">
-              <div class="row no-gutters">
-                <div class="col">
-                  <span>{{
-                    new Date(fixture.event_date).toLocaleDateString()
-                  }}</span>
-                </div>
-                <div class="col">
-                  <span>{{ fixture.home_team.name }}</span>
-                </div>
+            <div class="row no-gutters">
+              <div class="col">
+                <span>{{
+                  new Date(fixture.event_date).toLocaleDateString()
+                }}</span>
+              </div>
+              <div class="col">
+                <span>{{ fixture.home_team.name }}</span>
+              </div>
 
-                <div class="col-3">
-                  <img :src="fixture.home_team.logo" width="30" height="30" />
-                  <img :src="fixture.away_team.logo" width="30" height="30" />
-                </div>
-                <div class="col">
-                  <span>{{ fixture.away_team.name }}</span>
-                </div>
-                <div class="col">
-                  <span>{{
-                    new Date(fixture.event_date).toLocaleTimeString()
-                  }}</span>
-                </div>
+              <div class="col-3">
+                <img :src="fixture.home_team.logo" width="30" height="30" />
+                <img :src="fixture.away_team.logo" width="30" height="30" />
+              </div>
+              <div class="col">
+                <span>{{ fixture.away_team.name }}</span>
+              </div>
+              <div class="col">
+                <span>{{
+                  new Date(fixture.event_date).toLocaleTimeString()
+                }}</span>
               </div>
             </div>
           </li>

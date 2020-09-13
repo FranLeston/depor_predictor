@@ -113,7 +113,6 @@ export default {
       return this.$store.getters.currentUser;
     },
 
-
   },
   methods: {
     logout: function () {

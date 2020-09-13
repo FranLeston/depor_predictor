@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     plugins: [createPersistedState({
-        storage: window.sessionStorage,
+        storage: window.localStorage,
     })],
 
     state: {
@@ -17,6 +17,7 @@ export default new Vuex.Store({
         currentFixtures: {},
         currentRound: '',
         predictions: {},
+        allRounds: {}
     },
     mutations: {
         auth_request (state) {
@@ -40,6 +41,9 @@ export default new Vuex.Store({
         },
         setCurrentRound (state, round) {
             state.currentRound = round;
+        },
+        setAllRounds (state, rounds) {
+            state.allRounds = rounds;
         },
         setPredictions (state, predictions) {
             state.predictions = predictions;
@@ -91,7 +95,7 @@ export default new Vuex.Store({
                     .then(resp => {
                         commit('logout');
                         localStorage.removeItem('token');
-                        sessionStorage.clear();
+                        localStorage.clear();
                         delete axios.defaults.headers.common['Authorization'];
                         resolve(resp);
                     })
@@ -123,7 +127,7 @@ export default new Vuex.Store({
                     url: 'http://localhost:8000/api/v1/rounds?league_id=2847&is_current=1', data: {}, method: 'GET'
                 })
                     .then(resp => {
-                        const rounds = resp.data.rounds;
+                        let rounds = resp.data.rounds;
                         rounds.forEach(round => {
                             let roundName = round.round.split("_");
                             round.round = roundName[1];
@@ -132,7 +136,25 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
-                        commit('auth_error');
+                        reject(err);
+                    });
+            });
+        },
+        getAllRounds ({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: 'http://localhost:8000/api/v1/rounds?league_id=2847', data: {}, method: 'GET'
+                })
+                    .then(resp => {
+                        let rounds = resp.data.rounds;
+                        rounds.forEach(round => {
+                            let roundName = round.round.split("_");
+                            round.round = roundName[1];
+                        });
+                        commit('setAllRounds', rounds);
+                        resolve(resp);
+                    })
+                    .catch(err => {
                         reject(err);
                     });
             });
@@ -160,7 +182,6 @@ export default new Vuex.Store({
                         resolve(fixtures);
                     })
                     .catch(err => {
-                        commit('auth_error');
                         reject(err);
                     });
             });
@@ -177,7 +198,6 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
-                        commit('auth_error');
                         reject(err);
                     });
             });
@@ -189,6 +209,7 @@ export default new Vuex.Store({
         currentFixtures: state => state.currentFixtures,
         currentRound: state => state.currentRound,
         currentUser: state => state.user,
-        predictions: state => state.predictions
+        predictions: state => state.predictions,
+        allRounds: state => state.allRounds
     }
 });

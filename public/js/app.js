@@ -2123,9 +2123,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.$store.dispatch("getCurrentFixtures").then(function (resp) {
@@ -2243,10 +2240,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      errors: ""
+      errors: "",
+      saved: {}
     };
   },
   mounted: function mounted() {
@@ -2261,6 +2273,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     savePrediction: function savePrediction(index) {
+      var _this = this;
+
       var data = {
         fixture_id: this.predictions[index].fixture_id,
         home_team_prediction: this.predictions[index].predictions[0].home_team_prediction,
@@ -2269,7 +2283,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch("savePrediction", {
         data: data
       }).then(function (resp) {
-        console.log(resp);
+        _this.saved = index;
       });
     }
   }
@@ -2420,10 +2434,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.$store.dispatch("getAllRounds").then(function (resp) {
+      console.log(resp);
+    });
+  },
   components: {
     SinglePredictionComponent: _reusable_SinglePredictionComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  computed: {
+    allRounds: function allRounds() {
+      return this.$store.getters.allRounds;
+    },
+    currentRound: function currentRound() {
+      return this.$store.getters.currentRound;
+    }
   }
 });
 
@@ -39116,16 +39151,16 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _c("h5", { staticClass: "card-title" }),
-      _vm._v(" "),
+    _c("div", { staticClass: "card-body p-0" }, [
       _c("div", { staticClass: "card-text" }, [
         _c(
           "ul",
           { staticClass: "list-group list-group-flush" },
           _vm._l(_vm.currentFixtures, function(fixture, index) {
-            return _c("li", { key: index, staticClass: "list-group-item" }, [
-              _c("div", { staticClass: "container" }, [
+            return _c(
+              "li",
+              { key: index, staticClass: "list-group-item mx-0 my-0 px-0" },
+              [
                 _c("div", { staticClass: "row no-gutters" }, [
                   _c("div", { staticClass: "col" }, [
                     _c("span", [
@@ -39173,8 +39208,8 @@ var render = function() {
                     ])
                   ])
                 ])
-              ])
-            ])
+              ]
+            )
           }),
           0
         )
@@ -39234,7 +39269,7 @@ var render = function() {
               }
             },
             [
-              _c("div", { staticClass: "card text-center" }, [
+              _c("div", { staticClass: "card text-center bg-light" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("h5", { staticClass: "card-title" }, [
                     _vm._v(_vm._s(prediction.status))
@@ -39284,7 +39319,8 @@ var render = function() {
                           attrs: {
                             readonly: prediction.status != "Not Started",
                             type: "number",
-                            min: "0"
+                            min: "0",
+                            required: ""
                           },
                           domProps: {
                             value:
@@ -39352,7 +39388,8 @@ var render = function() {
                           attrs: {
                             readonly: prediction.status != "Not Started",
                             type: "number",
-                            min: "0"
+                            min: "0",
+                            required: ""
                           },
                           domProps: {
                             value:
@@ -39375,6 +39412,21 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
+                  _vm.saved === index
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "alert alert-success my-3",
+                          attrs: { role: "alert" }
+                        },
+                        [
+                          _vm._v(
+                            "\n              Pronostico guardado 💪\n            "
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   prediction.status === "Not Started"
                     ? _c(
                         "button",
@@ -39387,7 +39439,7 @@ var render = function() {
                     : _c(
                         "button",
                         {
-                          staticClass: "btn btn-danger my-3",
+                          staticClass: "btn btn-secondary my-3",
                           attrs: { type: "submit", disabled: "" }
                         },
                         [_vm._v("\n              Guardar\n            ")]
@@ -39604,8 +39656,45 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "row justify-content-center" },
     [
-      _c("h1", [_vm._v("my predictions")]),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.currentRound[0].id,
+              expression: "currentRound[0].id"
+            }
+          ],
+          staticClass: "form-control w-25",
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.$set(
+                _vm.currentRound[0],
+                "id",
+                $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+              )
+            }
+          }
+        },
+        _vm._l(_vm.allRounds, function(round, index) {
+          return _c("option", { key: index, domProps: { value: round.id } }, [
+            _vm._v("\n      " + _vm._s(round.round) + "\n    ")
+          ])
+        }),
+        0
+      ),
       _vm._v(" "),
       _c("SinglePredictionComponent")
     ],
@@ -57231,7 +57320,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   plugins: [Object(vuex_persistedstate__WEBPACK_IMPORTED_MODULE_2__["default"])({
-    storage: window.sessionStorage
+    storage: window.localStorage
   })],
   state: {
     status: '',
@@ -57239,7 +57328,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     user: {},
     currentFixtures: {},
     currentRound: '',
-    predictions: {}
+    predictions: {},
+    allRounds: {}
   },
   mutations: {
     auth_request: function auth_request(state) {
@@ -57263,6 +57353,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setCurrentRound: function setCurrentRound(state, round) {
       state.currentRound = round;
+    },
+    setAllRounds: function setAllRounds(state, rounds) {
+      state.allRounds = rounds;
     },
     setPredictions: function setPredictions(state, predictions) {
       state.predictions = predictions;
@@ -57324,7 +57417,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         }).then(function (resp) {
           commit('logout');
           localStorage.removeItem('token');
-          sessionStorage.clear();
+          localStorage.clear();
           delete axios.defaults.headers.common['Authorization'];
           resolve(resp);
         })["catch"](function (err) {
@@ -57366,13 +57459,32 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           commit('setCurrentRound', rounds);
           resolve(resp);
         })["catch"](function (err) {
-          commit('auth_error');
           reject(err);
         });
       });
     },
-    getPredictions: function getPredictions(_ref6) {
+    getAllRounds: function getAllRounds(_ref6) {
       var commit = _ref6.commit;
+      return new Promise(function (resolve, reject) {
+        axios({
+          url: 'http://localhost:8000/api/v1/rounds?league_id=2847',
+          data: {},
+          method: 'GET'
+        }).then(function (resp) {
+          var rounds = resp.data.rounds;
+          rounds.forEach(function (round) {
+            var roundName = round.round.split("_");
+            round.round = roundName[1];
+          });
+          commit('setAllRounds', rounds);
+          resolve(resp);
+        })["catch"](function (err) {
+          reject(err);
+        });
+      });
+    },
+    getPredictions: function getPredictions(_ref7) {
+      var commit = _ref7.commit;
       return new Promise(function (resolve, reject) {
         axios({
           url: 'http://localhost:8000/api/v1/predictions?league_id=2847&is_current=1',
@@ -57393,13 +57505,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           commit('setPredictions', fixtures);
           resolve(fixtures);
         })["catch"](function (err) {
-          commit('auth_error');
           reject(err);
         });
       });
     },
-    savePrediction: function savePrediction(_ref7, data) {
-      var commit = _ref7.commit;
+    savePrediction: function savePrediction(_ref8, data) {
+      var commit = _ref8.commit;
       return new Promise(function (resolve, reject) {
         axios(_objectSpread(_objectSpread({
           url: 'http://localhost:8000/api/v1/predictions'
@@ -57410,7 +57521,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 
           resolve(resp);
         })["catch"](function (err) {
-          commit('auth_error');
           reject(err);
         });
       });
@@ -57434,6 +57544,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     predictions: function predictions(state) {
       return state.predictions;
+    },
+    allRounds: function allRounds(state) {
+      return state.allRounds;
     }
   }
 }));

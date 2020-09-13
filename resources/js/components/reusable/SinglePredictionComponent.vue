@@ -7,7 +7,7 @@
         class="col-md-6 my-3"
       >
         <form @submit.prevent="savePrediction(index)">
-          <div class="card text-center">
+          <div class="card text-center bg-light">
             <div class="card-body">
               <h5 class="card-title">{{ prediction.status }}</h5>
               <h6 class="card-subtitle mb-2 text-muted">
@@ -34,6 +34,7 @@
                       type="number"
                       class="form-control form-control-sm"
                       min="0"
+                      required
                     />
                   </div>
                   <div class="col-4">
@@ -66,9 +67,17 @@
                       type="number"
                       class="form-control form-control-sm"
                       min="0"
+                      required
                     />
                   </div>
                 </div>
+              </div>
+              <div
+                v-if="saved === index"
+                class="alert alert-success my-3"
+                role="alert"
+              >
+                Pronostico guardado 💪
               </div>
               <button
                 v-if="prediction.status === 'Not Started'"
@@ -77,7 +86,12 @@
               >
                 Guardar
               </button>
-              <button v-else type="submit" class="btn btn-danger my-3" disabled>
+              <button
+                v-else
+                type="submit"
+                class="btn btn-secondary my-3"
+                disabled
+              >
                 Guardar
               </button>
             </div>
@@ -93,13 +107,16 @@ export default {
   data() {
     return {
       errors: "",
+      saved: {},
     };
   },
+
   mounted() {
     this.$store.dispatch("getPredictions").then((resp) => {
       console.log(resp);
     });
   },
+
   computed: {
     predictions: function () {
       return this.$store.getters.predictions;
@@ -120,7 +137,7 @@ export default {
           data,
         })
         .then((resp) => {
-          console.log(resp);
+          this.saved = index;
         });
     },
   },
