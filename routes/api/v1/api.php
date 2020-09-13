@@ -42,3 +42,9 @@ Route::prefix('/rounds')->group(function () {
     Route::get('/', 'Api\V1\RoundController@index');
 
 });
+
+//Users (Rankings)
+Route::prefix('/users')->group(function () {
+    Route::get('/', 'Api\V1\UserController@index');
+
+});

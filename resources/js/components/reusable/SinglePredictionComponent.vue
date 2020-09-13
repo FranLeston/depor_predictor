@@ -73,6 +73,16 @@
                 </div>
               </div>
               <div
+                class="col-auto"
+                v-if="prediction.predictions[0].points != null"
+              >
+                <h4>
+                  <span class="badge badge-pill badge-depor"
+                    >Puntos: {{ prediction.predictions[0].points }}</span
+                  >
+                </h4>
+              </div>
+              <div
                 v-if="saved === index"
                 class="alert alert-success my-3"
                 role="alert"
@@ -83,14 +93,6 @@
                 v-if="prediction.status === 'Not Started'"
                 type="submit"
                 class="btn btn-purple my-3"
-              >
-                Guardar
-              </button>
-              <button
-                v-else
-                type="submit"
-                class="btn btn-secondary my-3"
-                disabled
               >
                 Guardar
               </button>
@@ -145,4 +147,8 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.badge-depor {
+  background-color: #004a99;
+  color: #ffffff;
+}
 </style>

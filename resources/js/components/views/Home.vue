@@ -1,7 +1,11 @@
 <template>
-  <div class="row no-gutters">
-    <div class="col-7">
-      <p>main view</p>
+  <div class="row">
+    <div class="col-md-7">
+      <div class="row">
+        <div class="col-md-3">
+          <rankingTable></rankingTable>
+        </div>
+      </div>
     </div>
     <div class="col-md-5">
       <currentFixturesStatic></currentFixturesStatic>
@@ -10,12 +14,17 @@
 </template>
 <script>
 import currentFixturesStatic from "./../reusable/CurrentFixturesStatic";
+import rankingTable from "./../reusable/RankingTable";
+
 export default {
   components: {
     currentFixturesStatic,
+    rankingTable,
   },
   mounted() {
-    this.$store.dispatch("getCurrentRound").then((resp) => {});
+    this.$store.dispatch("getCurrentRound").then((resp) => {
+      console.log(resp);
+    });
   },
   computed: {
     currentRound: function () {

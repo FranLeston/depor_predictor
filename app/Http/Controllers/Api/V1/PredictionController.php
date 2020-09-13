@@ -32,6 +32,11 @@ class PredictionController extends Controller
                 $query->where('status', $request->input('status'));
             });
         }
+        if ($request->has('round')) {
+            $fixtures->where(function ($query) use ($request) {
+                $query->where('round', $request->input('round'));
+            });
+        }
 
         if ($request->has('league_id')) {
             $fixtures->where(function ($query) use ($request) {

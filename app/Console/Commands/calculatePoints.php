@@ -48,24 +48,29 @@ class calculatePoints extends Command
             $home_final = $prediction->fixture->goals_home_team;
             $away_final = $prediction->fixture->goals_away_team;
 
-            if ($home_final === $homePredict && $away_final === $awayPredict) {
-                var_dump("correct");
-                $points = $points + 5;
-            } else if ($home_final === $homePredict || $away_final === $awayPredict) {
+            if ($home_final || $away_final) {
 
-                var_dump("only 1");
+                if ($home_final === $homePredict && $away_final === $awayPredict) {
+                    var_dump("correct");
+                    $points = $points + 4;
+                } else if ($home_final === $homePredict || $away_final === $awayPredict) {
 
-                $points = $points + 3;
-            } else if ($home_final - $away_final === $homePredict - $awayPredict) {
-                var_dump("diff");
+                    var_dump("only 1");
 
-                $points = $points + 1;
+                    $points = $points + 3;
+                }
+
+                if ($home_final - $away_final === $homePredict - $awayPredict) {
+                    var_dump("diff");
+
+                    $points = $points + 1;
+                }
+
+                $newPrediction = Prediction::find($prediction->id);
+                $newPrediction->points = $points;
+                $newPrediction->save();
+
             }
-
-            $newPrediction = Prediction::find($prediction->id);
-            $newPrediction->points = $points;
-            $newPrediction->save();
-
         }
 
     }

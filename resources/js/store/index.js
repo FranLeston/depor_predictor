@@ -17,7 +17,9 @@ export default new Vuex.Store({
         currentFixtures: {},
         currentRound: '',
         predictions: {},
-        allRounds: {}
+        selectedPredictions: {},
+        allRounds: {},
+        rankings: {}
     },
     mutations: {
         auth_request (state) {
@@ -47,7 +49,14 @@ export default new Vuex.Store({
         },
         setPredictions (state, predictions) {
             state.predictions = predictions;
-        }
+        },
+        setSelectedPredictions (state, selectedPredictions) {
+            state.predictions = selectedPredictions;
+        },
+        setRankings (state, rankings) {
+            state.rankings = rankings;
+        },
+
     },
     actions: {
         login ({ commit }, user) {
@@ -159,6 +168,21 @@ export default new Vuex.Store({
                     });
             });
         },
+        getRankings ({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: 'http://localhost:8000/api/v1/users', data: {}, method: 'GET'
+                })
+                    .then(resp => {
+                        let rankings = resp.data.users;
+                        commit('setRankings', rankings);
+                        resolve(resp);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
+        },
         getPredictions ({ commit }) {
             return new Promise((resolve, reject) => {
                 axios({
@@ -179,6 +203,33 @@ export default new Vuex.Store({
                             }
                         });
                         commit('setPredictions', fixtures);
+                        resolve(fixtures);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
+        },
+        getSelectedPredictions ({ commit }, selectedRound) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: `http://localhost:8000/api/v1/predictions?league_id=2847&round=${selectedRound}`, data: {}, method: 'GET'
+                })
+                    .then(resp => {
+                        let fixtures = resp.data.predictions;
+                        fixtures.forEach(fixture => {
+                            if (!fixture.predictions.length) {
+                                let predictions = [
+                                    {
+                                        home_team_prediction: null,
+                                        away_team_prediction: null,
+                                        fixture_id: fixture.fixture_id
+                                    }
+                                ];
+                                fixture.predictions = predictions;
+                            }
+                        });
+                        commit('setSelectedPredictions', fixtures);
                         resolve(fixtures);
                     })
                     .catch(err => {
@@ -210,6 +261,8 @@ export default new Vuex.Store({
         currentRound: state => state.currentRound,
         currentUser: state => state.user,
         predictions: state => state.predictions,
-        allRounds: state => state.allRounds
+        selectedPredictions: state => state.selectedPredictions,
+        allRounds: state => state.allRounds,
+        rankings: state => state.rankings
     }
 });
