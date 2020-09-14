@@ -21,7 +21,7 @@ class Fixture extends Model
      */
     public function league()
     {
-        return $this->belongsTo('App\Models\League');
+        return $this->belongsTo('App\Models\League', 'league_id', 'league_id');
     }
 
     /**

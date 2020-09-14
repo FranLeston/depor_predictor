@@ -14,14 +14,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        if ($request->has('league_id')) {
+            $league_id = $request->input('league_id');
+        }
+
         $users = User::join('predictions', 'predictions.user_id', '=', 'users.id')
+            ->join('fixtures', 'fixtures.fixture_id', '=', 'predictions.fixture_id')
+            ->join('leagues', 'leagues.league_id', '=', 'fixtures.league_id')
             ->select(
                 'users.name',
                 'users.id',
                 DB::raw('SUM(predictions.points) as total'),
                 DB::raw('COUNT(predictions.points) as played'))
+            ->where('leagues.league_id', '=', $league_id)
             ->orderBy('total', 'DESC')
             ->groupBy('users.name')->get();
 
@@ -46,9 +54,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        if ($request->has('league_id')) {
+            $league_id = $request->input('league_id');
+        }
+        $user = User::join('predictions', 'predictions.user_id', '=', 'users.id')
+            ->join('fixtures', 'fixtures.fixture_id', '=', 'predictions.fixture_id')
+            ->join('leagues', 'leagues.league_id', '=', 'fixtures.league_id')
+            ->select(
+                'users.name',
+                'users.id',
+                DB::raw('SUM(predictions.points) as total'),
+                DB::raw('COUNT(predictions.points) as played'))
+            ->where('leagues.league_id', '=', $league_id)
+            ->where('users.id', '=', $id)
+            ->orderBy('total', 'DESC')
+            ->groupBy('users.name')->get();
+
+        return response()->json(['user' => $user], 200);
     }
 
     /**

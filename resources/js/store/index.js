@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
+import data from './constants';
 
 
 Vue.use(Vuex);
@@ -19,7 +20,10 @@ export default new Vuex.Store({
         predictions: {},
         selectedPredictions: {},
         allRounds: {},
-        rankings: {}
+        rankings: {},
+        userPoints: {},
+        league_id: data.LEAGUE_ID
+
     },
     mutations: {
         auth_request (state) {
@@ -56,13 +60,16 @@ export default new Vuex.Store({
         setRankings (state, rankings) {
             state.rankings = rankings;
         },
+        setUserPoints (state, user) {
+            state.userPoints = user;
+        },
 
     },
     actions: {
         login ({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request');
-                axios({ url: 'http://localhost:8000/api/v1/auth/login', data: user, method: 'POST' })
+                axios({ url: '/api/v1/auth/login', data: user, method: 'POST' })
                     .then(resp => {
                         const token = resp.data.accessToken;
                         const user = resp.data.user;
@@ -86,7 +93,7 @@ export default new Vuex.Store({
         register ({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request');
-                axios({ url: 'http://localhost:8000/api/v1/auth/register', data: user, method: 'POST' })
+                axios({ url: '/api/v1/auth/register', data: user, method: 'POST' })
                     .then(resp => {
                         // Add the following line:
                         resolve(resp);
@@ -100,7 +107,7 @@ export default new Vuex.Store({
         },
         logout ({ commit }) {
             return new Promise((resolve, reject) => {
-                axios({ url: 'http://localhost:8000/api/v1/auth/logout', data: {}, method: 'POST' })
+                axios({ url: '/api/v1/auth/logout', data: {}, method: 'POST' })
                     .then(resp => {
                         commit('logout');
                         localStorage.removeItem('token');
@@ -117,7 +124,7 @@ export default new Vuex.Store({
         getCurrentFixtures ({ commit }) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: 'http://localhost:8000/api/v1/fixtures?league_id=2847&is_current=1&status=Not%20Started', data: {}, method: 'GET'
+                    url: `/api/v1/fixtures?league_id=${data.LEAGUE_ID}&is_current=1&status=Not%20Started`, data: {}, method: 'GET'
                 })
                     .then(resp => {
                         const fixtures = resp.data.fixtures;
@@ -133,7 +140,7 @@ export default new Vuex.Store({
         getCurrentRound ({ commit }) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: 'http://localhost:8000/api/v1/rounds?league_id=2847&is_current=1', data: {}, method: 'GET'
+                    url: `/api/v1/rounds?league_id=${data.LEAGUE_ID}&is_current=1`, data: {}, method: 'GET'
                 })
                     .then(resp => {
                         let rounds = resp.data.rounds;
@@ -152,7 +159,7 @@ export default new Vuex.Store({
         getAllRounds ({ commit }) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: 'http://localhost:8000/api/v1/rounds?league_id=2847', data: {}, method: 'GET'
+                    url: `/api/v1/rounds?league_id=${data.LEAGUE_ID}`, data: {}, method: 'GET'
                 })
                     .then(resp => {
                         let rounds = resp.data.rounds;
@@ -171,11 +178,28 @@ export default new Vuex.Store({
         getRankings ({ commit }) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: 'http://localhost:8000/api/v1/users', data: {}, method: 'GET'
+                    url: `/api/v1/users?league_id=${data.LEAGUE_ID}`, data: {}, method: 'GET'
                 })
                     .then(resp => {
                         let rankings = resp.data.users;
+
                         commit('setRankings', rankings);
+                        resolve(resp);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
+        },
+        getUserRanking ({ commit }, user_id) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: `/api/v1/users/${user_id}?league_id=${data.LEAGUE_ID}`, data: {}, method: 'GET'
+                })
+                    .then(resp => {
+                        let userRanking = resp.data.user;
+
+                        commit('setUserPoints', userRanking);
                         resolve(resp);
                     })
                     .catch(err => {
@@ -186,7 +210,7 @@ export default new Vuex.Store({
         getPredictions ({ commit }) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: 'http://localhost:8000/api/v1/predictions?league_id=2847&is_current=1', data: {}, method: 'GET'
+                    url: `/api/v1/predictions?league_id=${data.LEAGUE_ID}&is_current=1`, data: {}, method: 'GET'
                 })
                     .then(resp => {
                         let fixtures = resp.data.predictions;
@@ -213,7 +237,7 @@ export default new Vuex.Store({
         getSelectedPredictions ({ commit }, selectedRound) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: `http://localhost:8000/api/v1/predictions?league_id=2847&round=${selectedRound}`, data: {}, method: 'GET'
+                    url: `/api/v1/predictions?league_id=${data.LEAGUE_ID}&round=${selectedRound}`, data: {}, method: 'GET'
                 })
                     .then(resp => {
                         let fixtures = resp.data.predictions;
@@ -240,7 +264,7 @@ export default new Vuex.Store({
         savePrediction ({ commit }, data) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: 'http://localhost:8000/api/v1/predictions', ...data, method: 'POST'
+                    url: '/api/v1/predictions', ...data, method: 'POST'
                 })
                     .then(resp => {
                         console.log('this is the saved prediction', resp);
@@ -263,6 +287,7 @@ export default new Vuex.Store({
         predictions: state => state.predictions,
         selectedPredictions: state => state.selectedPredictions,
         allRounds: state => state.allRounds,
-        rankings: state => state.rankings
+        rankings: state => state.rankings,
+        userPoints: state => state.userPoints
     }
 });

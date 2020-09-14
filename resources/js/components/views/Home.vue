@@ -17,18 +17,25 @@ import currentFixturesStatic from "./../reusable/CurrentFixturesStatic";
 import rankingTable from "./../reusable/RankingTable";
 
 export default {
+  data() {
+    return {
+      user: this.$store.getters.currentUser,
+    };
+  },
   components: {
     currentFixturesStatic,
     rankingTable,
   },
   mounted() {
-    this.$store.dispatch("getCurrentRound").then((resp) => {
-      console.log(resp);
-    });
+    if (this.user.id) {
+      this.$store.dispatch("getUserRanking", this.user.id).then((resp) => {
+        console.log(resp);
+      });
+    }
   },
   computed: {
-    currentRound: function () {
-      return this.$store.getters.currentRound;
+    currentUser: function () {
+      return this.$store.getters.currentUser;
     },
   },
 };

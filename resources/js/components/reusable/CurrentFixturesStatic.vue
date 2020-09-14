@@ -1,7 +1,19 @@
 <template>
   <div class="card text-center">
     <div class="card-header">
-      Partidos En Juego - {{ currentRound[0].round }}
+      <div class="col">
+        <img
+          :src="currentFixtures[0].league.logo"
+          style="background-color: white"
+          class="p-1"
+          width="65"
+          height="50"
+        />
+        <figcaption>
+          Temporada: {{ currentFixtures[0].league.season }}
+        </figcaption>
+      </div>
+      <span>En Juego: {{ currentRound[0].round }}</span>
     </div>
     <div class="card-body p-0">
       <div class="card-text">
@@ -82,6 +94,9 @@ export default {
   mounted() {
     this.$store.dispatch("getCurrentFixtures").then((resp) => {
       console.log(resp.data.fixtures);
+    });
+    this.$store.dispatch("getCurrentRound").then((resp) => {
+      console.log(resp);
     });
   },
   computed: {

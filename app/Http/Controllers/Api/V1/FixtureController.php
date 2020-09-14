@@ -20,7 +20,7 @@ class FixtureController extends Controller
     public function index(Request $request)
     {
 
-        $query = Fixture::with('homeTeam', 'awayTeam');
+        $query = Fixture::with('homeTeam', 'awayTeam')->with('league');
 
         if ($request->has('status')) {
             $query->where(function ($query) use ($request) {

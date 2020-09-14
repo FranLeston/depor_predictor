@@ -5,6 +5,7 @@ import Login from "./../components/views/Login.vue";
 import Register from "./../components/views/Register.vue";
 import Predictions from "./../components/views/Predictions.vue";
 import Profile from "./../components/views/Profile.vue";
+import Rules from "./../components/views/Rules.vue";
 
 import store from "./../store";
 
@@ -32,6 +33,11 @@ const routes = [
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: "/rules",
+        name: "Rules",
+        component: Rules,
     },
     {
         path: "/login",

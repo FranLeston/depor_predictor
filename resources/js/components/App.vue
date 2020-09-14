@@ -9,7 +9,7 @@
           class="d-inline-block align-top"
           alt="Depor Porra"
         />
-        Depor Porra
+        QuiniDepor beta
       </router-link>
 
       <button
@@ -31,8 +31,23 @@
               >Mis Pronosticos</router-link
             >
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/rules">Reglas</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/leaguetable"
+              >Clasificación</router-link
+            >
+          </li>
         </ul>
         <ul v-if="isLoggedIn" class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <span v-if="userPoints[0]" class="nav-link active my-2 h5"
+              >{{ userPoints[0].total || 0 }} Pts
+            </span>
+            <span class="nav-link active my-2 h5" v-else>0 Pts</span>
+          </li>
+
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -43,6 +58,7 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
+              <span>{{ currentUser.name }}</span>
               <img
                 :src="currentUser.avatar"
                 width="40"
@@ -77,25 +93,6 @@
           </ul>
         </div>
       </div>
-
-      <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/">Mis Pronosticos</router-link>
-          </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item" v-if="isLoggedIn">
-            <button class="btn nav-link" @click="logout" to="/">Logout</button>
-          </li>
-          <li class="nav-item" v-else>
-            <router-link class="nav-link" to="/login">Login</router-link>
-          </li>
-          <li class="nav-item" v-if="!isLoggedIn">
-            <router-link class="nav-link" to="/register">Register</router-link>
-          </li>
-        </ul>
-      </div> -->
     </nav>
     <div class="wrapper">
       <router-view />
@@ -112,7 +109,9 @@ export default {
     currentUser: function () {
       return this.$store.getters.currentUser;
     },
-
+    userPoints: function () {
+      return this.$store.getters.userPoints;
+    },
   },
   methods: {
     logout: function () {

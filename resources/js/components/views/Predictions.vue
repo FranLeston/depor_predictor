@@ -25,6 +25,9 @@ export default {
     this.$store.dispatch("getAllRounds").then((resp) => {
       console.log(resp);
     });
+    this.$store.dispatch("getCurrentRound").then((resp) => {
+      console.log(resp);
+    });
   },
   components: {
     SinglePredictionComponent,

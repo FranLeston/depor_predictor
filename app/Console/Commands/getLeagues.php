@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Services\FootballApiService;
 use App\Models\League;
+use App\Services\FootballApiService;
+use Illuminate\Console\Command;
 
 class getLeagues extends Command
 {
@@ -47,27 +47,28 @@ class getLeagues extends Command
 
         foreach ($leagues as $league) {
 
+            $theLeague = League::where('league_id', $league->league_id)->first();
 
-        $theLeague = League::where('league_id', $league->league_id)->first();
+            if (isset($theLeague)) {
+                $this->updateDatabase($theLeague, $league);
+            } else {
+                $this->saveToDatabase($league);
 
-        if (isset($theLeague)){
-            $this->updateDatabase($theLeague, $league);
-        } else {
-            $this->saveToDatabase($league);
+            }
 
         }
-
-       }
-       $this->info("Cool Beans! " .count($leagues) ." Leagues were updated!");
+        $this->info("Cool Beans! " . count($leagues) . " Leagues were updated!");
 
     }
 
-    public function saveToDatabase($league) {
+    public function saveToDatabase($league)
+    {
         $dbLeague = new League;
         $dbLeague->league_id = $league->league_id;
         $dbLeague->name = $league->name;
         $dbLeague->type = $league->type;
         $dbLeague->country = $league->country;
+        $dbLeague->season = $league->season;
 
         if ($league->season_start != "" || $league->season_start != null) {
             $dbLeague->season_start = $league->season_start;
@@ -89,11 +90,13 @@ class getLeagues extends Command
         $this->info("Saved to DB: " . $league->league_id);
     }
 
-    public function updateDatabase($theLeague, $league) {
+    public function updateDatabase($theLeague, $league)
+    {
         $theLeague->league_id = $league->league_id;
         $theLeague->name = $league->name;
         $theLeague->type = $league->type;
         $theLeague->country = $league->country;
+        $theLeague->season = $league->season;
 
         if ($league->season_start != "" || $league->season_start != null) {
             $theLeague->season_start = $league->season_start;
@@ -114,7 +117,5 @@ class getLeagues extends Command
         $theLeague->save();
         $this->info("Update League in DB: " . $league->league_id);
     }
-
-
 
 }

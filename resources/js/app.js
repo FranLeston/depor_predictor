@@ -5,7 +5,6 @@
  */
 
 require("./bootstrap");
-
 window.Vue = require("vue");
 import store from "./store";
 import router from "./router";
@@ -17,6 +16,9 @@ const token = localStorage.getItem('token');
 if (token) {
     Vue.prototype.$http.defaults.headers.common['Authorization'] = "Bearer " + token;
 }
+
+
+
 
 
 /**
