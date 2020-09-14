@@ -277,6 +277,22 @@ export default new Vuex.Store({
                     });
             });
         },
+        // updateProfile ({ commit }, data) {
+        //     return new Promise((resolve, reject) => {
+        //         axios({
+        //             url: `/api/v1/users/profile/1`, ...data, method: 'POST'
+        //         })
+        //             .then(resp => {
+        //                 console.log('this is the profile resp', resp);
+
+        //                 //commit('setPredictions', fixtures);
+        //                 resolve(resp);
+        //             })
+        //             .catch(err => {
+        //                 reject(err);
+        //             });
+        //     });
+        // },
     },
     getters: {
         isLoggedIn: state => !!state.token,

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -84,7 +85,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //updates User image and name
+        $data = $request->all();
+        $request->validate([
+            'name' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($id)],
+            'avatar' => ['file', 'size:3000'],
+        ]);
+
+        $imageName = time() . '.' . $request->avatar->getClientOriginalExtension();
+        $request->avatar->move(public_path('images/profile'), $imageName);
+
+        $user = User::find($id);
+
+        $user->name = $data['name'];
+        $user->avatr = $imageName;
+        $user->save();
+
+        return response()->json(['user' => $user], 200);
     }
 
     /**
