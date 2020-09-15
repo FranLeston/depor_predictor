@@ -26,6 +26,7 @@ class UserController extends Controller
             ->join('fixtures', 'fixtures.fixture_id', '=', 'predictions.fixture_id')
             ->join('leagues', 'leagues.league_id', '=', 'fixtures.league_id')
             ->select(
+                'users.avatar',
                 'users.name',
                 'users.id',
                 DB::raw('SUM(predictions.points) as total'),
@@ -64,6 +65,7 @@ class UserController extends Controller
             ->join('fixtures', 'fixtures.fixture_id', '=', 'predictions.fixture_id')
             ->join('leagues', 'leagues.league_id', '=', 'fixtures.league_id')
             ->select(
+                'users.avatar',
                 'users.name',
                 'users.id',
                 DB::raw('SUM(predictions.points) as total'),
@@ -72,6 +74,19 @@ class UserController extends Controller
             ->where('users.id', '=', $id)
             ->orderBy('total', 'DESC')
             ->groupBy('users.name')->get();
+
+        return response()->json(['user' => $user], 200);
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showCurrentUser($id)
+    {
+
+        $user = User::find($id);
 
         return response()->json(['user' => $user], 200);
     }
@@ -86,19 +101,22 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //updates User image and name
+        $request['data'] = json_decode($request['data']);
+
         $data = $request->all();
         $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($id)],
-            'avatar' => ['file', 'size:3000'],
+            'avatar' => ['file', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2000'],
         ]);
-
-        $imageName = time() . '.' . $request->avatar->getClientOriginalExtension();
-        $request->avatar->move(public_path('images/profile'), $imageName);
-
         $user = User::find($id);
+        if ($request->file()) {
+            $imageName = time() . '.' . $request->avatar->getClientOriginalExtension();
+            $request->avatar->move(public_path('images/profile'), $imageName);
+            $user->avatar = $imageName;
+
+        }
 
         $user->name = $data['name'];
-        $user->avatr = $imageName;
         $user->save();
 
         return response()->json(['user' => $user], 200);

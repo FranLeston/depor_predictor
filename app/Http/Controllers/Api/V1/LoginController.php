@@ -45,7 +45,7 @@ class LoginController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'avatar' => 'https://www.iconfinder.com/data/icons/avatars-55/100/avatar_profile_user_music_headphones_shirt_cool-512.png',
+            'avatar' => 'default-avatar.png',
         ]);
         return response()->json(['user' => $user], 200);
     }

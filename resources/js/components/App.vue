@@ -60,7 +60,7 @@
             >
               <span>{{ currentUser.name }}</span>
               <img
-                :src="currentUser.avatar"
+                :src="`/images/profile/${currentUser.avatar}`"
                 width="40"
                 height="40"
                 class="rounded-circle"

@@ -48,5 +48,6 @@ Route::prefix('/users')->group(function () {
     Route::get('/', 'Api\V1\UserController@index');
     Route::middleware('auth:api')->get('/{id}', 'Api\V1\UserController@show');
     Route::middleware('auth:api')->post('/update/{id}', 'Api\V1\UserController@update');
+    Route::middleware('auth:api')->get('/user/{id}', 'Api\V1\UserController@showCurrentUser');
 
 });

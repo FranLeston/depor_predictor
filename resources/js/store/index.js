@@ -48,6 +48,9 @@ export default new Vuex.Store({
         setCurrentRound (state, round) {
             state.currentRound = round;
         },
+        setCurrentUser (state, user) {
+            state.user = user;
+        },
         setAllRounds (state, rounds) {
             state.allRounds = rounds;
         },
@@ -200,6 +203,21 @@ export default new Vuex.Store({
                         let userRanking = resp.data.user;
 
                         commit('setUserPoints', userRanking);
+                        resolve(resp);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
+        },
+        getCurrentUser ({ commit }, user_id) {
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: `/api/v1/users/user/${user_id}`, data: {}, method: 'GET'
+                })
+                    .then(resp => {
+                        let user = resp.data.user;
+                        commit('setCurrentUser', user);
                         resolve(resp);
                     })
                     .catch(err => {

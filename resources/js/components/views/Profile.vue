@@ -4,13 +4,13 @@
       <form @submit.prevent="updateProfile" enctype="multipart/form-data">
         <img
           class="rounded-circle mb-4"
-          :src="currentUser.avatar"
+          :src="`/images/profile/${currentUser.avatar}`"
           width="100"
           height="100"
         />
         <h1 class="h3 mb-3 font-weight-normal">Perfil</h1>
         <div v-if="errors" class="alert alert-danger" role="alert">
-          {{ errors }}
+          Por favor, revisa los campos e intentalo de nuevo.
         </div>
         <div class="form-group">
           <label for="name">Nombre</label>
@@ -18,12 +18,28 @@
             v-model="name"
             type="text"
             class="form-control"
-            :placeholder="currentUser.name"
+            v-bind:class="{ 'is-invalid': errors.name }"
           />
+          <div v-if="errors.name" class="invalid-feedback">
+            <span v-for="(error, index) in errors.name" :key="index">
+              {{ error }}
+            </span>
+          </div>
         </div>
         <div class="form-group">
           <label for="inputImage">Avatar</label>
-          <input type="file" class="form-control" @change="selectFile" />
+          <input
+            type="file"
+            class="form-control"
+            v-bind:class="{ 'is-invalid': errors.avatar }"
+            @change="selectFile"
+            accept="image/png, image/jpeg, image/jpg"
+          />
+          <div v-if="errors.avatar" class="invalid-feedback">
+            <span v-for="(error, index) in errors.avatar" :key="index">
+              {{ error }}
+            </span>
+          </div>
         </div>
 
         <button type="submit" class="btn btn-purple">Actualizar</button>
@@ -38,7 +54,7 @@ export default {
     return {
       errors: "",
       avatar: null,
-      name: "",
+      name: this.$store.getters.currentUser.name,
       success: "",
     };
   },
@@ -52,21 +68,29 @@ export default {
       this.avatar = event.target.files[0];
     },
     updateProfile: function (e) {
+      const vm = this;
+      vm.errors = "";
       const config = {
         headers: { "content-type": "multipart/form-data" },
       };
 
       let formData = new FormData();
-      formData.append("avatar", this.avatar);
+      if (this.avatar) {
+        formData.append("avatar", this.avatar);
+      }
       formData.append("name", this.name);
 
       axios
         .post(`/api/v1/users/update/${this.currentUser.id}`, formData, config)
         .then(function (resp) {
-          console.log(resp.data);
+          vm.$store
+            .dispatch("getCurrentUser", vm.currentUser.id)
+            .then((resp) => {
+              console.log(resp);
+            });
         })
         .catch(function (error) {
-          this.errors = error;
+          vm.errors = error.response.data.errors;
         });
     },
   },

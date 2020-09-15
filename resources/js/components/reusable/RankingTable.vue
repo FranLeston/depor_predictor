@@ -5,6 +5,7 @@
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">Avatar</th>
           <th scope="col">Nombre</th>
           <th scope="col">Pronosticos</th>
           <th scope="col">Puntos</th>
@@ -20,6 +21,14 @@
           }"
         >
           <th scope="row">{{ index + 1 }}</th>
+          <td>
+            <img
+              class="rounded-circle mb-4"
+              :src="`/images/profile/${user.avatar}`"
+              width="40"
+              height="40"
+            />
+          </td>
           <td>{{ user.name }}</td>
           <td>{{ user.played }}</td>
           <td>{{ user.total ? user.total : "0" }}</td>
