@@ -1,19 +1,22 @@
 <template>
   <div class="row justify-content-center">
-    <select
-      class="form-control w-25"
-      v-model="currentRound[0].id"
-      @change="getGamesForRound($event)"
-    >
-      <option
-        v-for="(round, index) in allRounds"
-        v-bind:value="round.id"
-        :key="index"
-        :data-round="round.round"
+    <div class="col-md-6">
+      <select
+        class="form-control"
+        v-model="currentRound[0].id"
+        @change="getGamesForRound($event)"
       >
-        {{ round.round }}
-      </option>
-    </select>
+        <option
+          v-for="(round, index) in allRounds"
+          v-bind:value="round.id"
+          :key="index"
+          :data-round="round.round"
+        >
+          {{ round.round }}
+        </option>
+      </select>
+    </div>
+
     <SinglePredictionComponent></SinglePredictionComponent>
   </div>
 </template>
@@ -23,10 +26,10 @@ import SinglePredictionComponent from "./../reusable/SinglePredictionComponent";
 export default {
   mounted() {
     this.$store.dispatch("getAllRounds").then((resp) => {
-      console.log(resp);
+      console.log("got all rounds");
     });
     this.$store.dispatch("getCurrentRound").then((resp) => {
-      console.log(resp);
+      console.log("got current round");
     });
   },
   components: {
@@ -49,7 +52,7 @@ export default {
       this.$store
         .dispatch("getSelectedPredictions", selectedRound)
         .then((resp) => {
-          console.log(resp);
+          console.log("got selected predictions");
         });
     },
   },

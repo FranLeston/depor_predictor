@@ -115,7 +115,7 @@ export default {
 
   mounted() {
     this.$store.dispatch("getPredictions").then((resp) => {
-      console.log(resp);
+      console.log("got single prediction");
     });
   },
 

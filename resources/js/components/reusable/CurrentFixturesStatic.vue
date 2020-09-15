@@ -93,10 +93,10 @@
 export default {
   mounted() {
     this.$store.dispatch("getCurrentFixtures").then((resp) => {
-      console.log(resp.data.fixtures);
+      console.log("got current fixtures");
     });
     this.$store.dispatch("getCurrentRound").then((resp) => {
-      console.log(resp);
+      console.log("got current round");
     });
   },
   computed: {

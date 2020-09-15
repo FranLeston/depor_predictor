@@ -41,9 +41,7 @@
           />
         </div>
 
-        <button type="submit" class="btn btn-purple">
-          Login
-        </button>
+        <button type="submit" class="btn btn-purple">Login</button>
       </form>
     </div>
   </div>
@@ -67,7 +65,7 @@ export default {
         .dispatch("login", { email, password })
         .then(() => this.$router.push("/"))
         .catch((err) => {
-          console.log(err.response.data.message);
+          console.log("ERROR: ", err.response.data.message);
           this.errors = err.response.data.message;
         });
     },

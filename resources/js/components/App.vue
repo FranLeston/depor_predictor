@@ -97,11 +97,16 @@
     <div class="wrapper">
       <router-view />
     </div>
+    <footersection></footersection>
   </div>
 </template>
 
 <script>
+import footersection from "./reusable/Footer";
 export default {
+  components: {
+    footersection,
+  },
   computed: {
     isLoggedIn: function () {
       return this.$store.getters.isLoggedIn;

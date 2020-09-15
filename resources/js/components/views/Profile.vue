@@ -12,6 +12,9 @@
         <div v-if="errors" class="alert alert-danger" role="alert">
           Por favor, revisa los campos e intentalo de nuevo.
         </div>
+        <div v-if="success" class="alert alert-success" role="alert">
+          Perfil actualizado.
+        </div>
         <div class="form-group">
           <label for="name">Nombre</label>
           <input
@@ -70,6 +73,7 @@ export default {
     updateProfile: function (e) {
       const vm = this;
       vm.errors = "";
+      vm.success = "";
       const config = {
         headers: { "content-type": "multipart/form-data" },
       };
@@ -86,7 +90,7 @@ export default {
           vm.$store
             .dispatch("getCurrentUser", vm.currentUser.id)
             .then((resp) => {
-              console.log(resp);
+              vm.success = true;
             });
         })
         .catch(function (error) {

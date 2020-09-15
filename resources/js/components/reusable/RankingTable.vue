@@ -42,7 +42,7 @@
 export default {
   mounted() {
     this.$store.dispatch("getRankings").then((resp) => {
-      console.log(resp);
+      console.log("got rankings");
     });
   },
   computed: {

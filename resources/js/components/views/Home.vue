@@ -1,13 +1,13 @@
 <template>
   <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-8">
       <div class="row">
         <div class="col-md-3">
           <rankingTable></rankingTable>
         </div>
       </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
       <currentFixturesStatic></currentFixturesStatic>
     </div>
   </div>
@@ -29,7 +29,7 @@ export default {
   mounted() {
     if (this.user.id) {
       this.$store.dispatch("getUserRanking", this.user.id).then((resp) => {
-        console.log(resp);
+        console.log("got user ranking");
       });
     }
   },
