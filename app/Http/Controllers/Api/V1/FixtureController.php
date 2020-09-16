@@ -24,7 +24,7 @@ class FixtureController extends Controller
 
         if ($request->has('status')) {
             $query->where(function ($query) use ($request) {
-                $query->where('status', $request->input('status'));
+                $query->where('short_status', $request->input('status'));
             });
         }
 
@@ -53,7 +53,7 @@ class FixtureController extends Controller
      */
     public function activeFixtures()
     {
-        $activeFixtures = Fixture::with('homeTeam', 'awayTeam')->where('status', 'Not Started')->where('is_current', true)->get();
+        $activeFixtures = Fixture::with('homeTeam', 'awayTeam')->where('short_status', 'NS')->where('is_current', true)->get();
 
         return response()->json(['fixtures' => $activeFixtures], 200);
     }

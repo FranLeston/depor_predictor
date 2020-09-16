@@ -42,35 +42,37 @@ class calculatePoints extends Command
         $predictions = Prediction::with('fixture')->whereNull('points', null)->get();
 
         foreach ($predictions as $key => $prediction) {
-            $points = 0;
-            $homePredict = $prediction->home_team_prediction;
-            $awayPredict = $prediction->away_team_prediction;
-            $home_final = $prediction->fixture->goals_home_team;
-            $away_final = $prediction->fixture->goals_away_team;
 
-            if ($home_final || $away_final) {
+            $validMatches = array("FT", "PEN", "AET");
+            $matchStatus = $prediction->fixture->short_status;
+            if (in_array($matchStatus, $validMatches)) {
+                $points = 0;
+                $homePredict = $prediction->home_team_prediction;
+                $awayPredict = $prediction->away_team_prediction;
+                $home_final = $prediction->fixture->goals_home_team;
+                $away_final = $prediction->fixture->goals_away_team;
 
-                if ($home_final === $homePredict && $away_final === $awayPredict) {
-                    var_dump("correct");
-                    $points = $points + 4;
-                } else if ($home_final === $homePredict || $away_final === $awayPredict) {
+                if ($home_final || $away_final) {
 
-                    var_dump("only 1");
+                    if ($home_final === $homePredict && $away_final === $awayPredict) {
+                        $points = $points + 4;
+                    } else if ($home_final === $homePredict || $away_final === $awayPredict) {
 
-                    $points = $points + 3;
+                        $points = $points + 3;
+                    }
+
+                    if ($home_final - $away_final === $homePredict - $awayPredict) {
+
+                        $points = $points + 1;
+                    }
+
+                    $newPrediction = Prediction::find($prediction->id);
+                    $newPrediction->points = $points;
+                    $newPrediction->save();
+
                 }
-
-                if ($home_final - $away_final === $homePredict - $awayPredict) {
-                    var_dump("diff");
-
-                    $points = $points + 1;
-                }
-
-                $newPrediction = Prediction::find($prediction->id);
-                $newPrediction->points = $points;
-                $newPrediction->save();
-
             }
+
         }
 
     }

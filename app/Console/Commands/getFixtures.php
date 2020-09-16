@@ -80,6 +80,7 @@ class getFixtures extends Command
                 'round' => $fixture->round,
                 'is_current' => $is_current,
                 'status' => $fixture->status,
+                'short_status' => $fixture->statusShort,
                 'home_team_id' => $fixture->homeTeam->team_id,
                 'away_team_id' => $fixture->awayTeam->team_id,
                 'goals_home_team' => $fixture->goalsHomeTeam,
@@ -109,12 +110,12 @@ class getFixtures extends Command
         $this->info("Getting Primera Division Fixtures...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
+
             if ($currentRound == $fixture->round) {
                 $is_current = true;
             } else {
                 $is_current = false;
             }
-
             Fixture::updateOrCreate([
 
                 'fixture_id' => $fixture->fixture_id,
@@ -124,6 +125,7 @@ class getFixtures extends Command
                 'event_timestamp' => Carbon::createFromTimestamp($fixture->event_timestamp)->format('Y-m-d H:i:s'),
                 'round' => $fixture->round,
                 'is_current' => $is_current,
+                'short_status' => $fixture->statusShort,
                 'status' => $fixture->status,
                 'home_team_id' => $fixture->homeTeam->team_id,
                 'away_team_id' => $fixture->awayTeam->team_id,
@@ -169,6 +171,7 @@ class getFixtures extends Command
                 'round' => $fixture->round,
                 'is_current' => $is_current,
                 'status' => $fixture->status,
+                'short_status' => $fixture->statusShort,
                 'home_team_id' => $fixture->homeTeam->team_id,
                 'away_team_id' => $fixture->awayTeam->team_id,
                 'goals_home_team' => $fixture->goalsHomeTeam,
@@ -216,7 +219,7 @@ class getFixtures extends Command
 
             ]);
 
-            $this->info("Saved to DB: ");
+            $this->info("Saved Round to DB");
         }
 
         $this->info("Cool Beans! " . count($rounds) . " rounds were updated!");

@@ -1,17 +1,8 @@
 <template>
-  <div class="card text-center">
+  <div class="card text-center shadow-lg">
     <div class="card-header">
       <div class="col">
-        <img
-          :src="currentFixtures[0].league.logo"
-          style="background-color: white"
-          class="p-1"
-          width="65"
-          height="50"
-        />
-        <figcaption>
-          Temporada: {{ currentFixtures[0].league.season }}
-        </figcaption>
+        <span> Temporada: {{ currentFixtures[0].league.season }} </span>
       </div>
       <span>En Juego: {{ currentRound[0].round }}</span>
     </div>

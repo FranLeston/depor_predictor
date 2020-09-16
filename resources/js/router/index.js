@@ -6,6 +6,8 @@ import Register from "./../components/views/Register.vue";
 import Predictions from "./../components/views/Predictions.vue";
 import Profile from "./../components/views/Profile.vue";
 import Rules from "./../components/views/Rules.vue";
+import Rankings from "./../components/views/Rankings.vue";
+
 
 import store from "./../store";
 
@@ -22,6 +24,14 @@ const routes = [
         path: "/predictions",
         name: "Predictions",
         component: Predictions,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/rankings",
+        name: "Rankings",
+        component: Rankings,
         meta: {
             requiresAuth: true
         }

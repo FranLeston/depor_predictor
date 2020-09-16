@@ -33,7 +33,11 @@ class UserController extends Controller
                 DB::raw('COUNT(predictions.points) as played'))
             ->where('leagues.league_id', '=', $league_id)
             ->orderBy('total', 'DESC')
-            ->groupBy('users.name')->get();
+            ->groupBy('users.name')->paginate(10);
+        $path = $request->url();
+        $query = $request->query();
+
+        $users->withPath($path . '?league_id=' . $query['league_id']);
 
         return response()->json(['users' => $users], 200);
 

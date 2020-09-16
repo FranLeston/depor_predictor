@@ -7,10 +7,10 @@
         class="col-md-6 my-3"
       >
         <form @submit.prevent="savePrediction(index)">
-          <div class="card text-center bg-light">
+          <div class="card text-center depor-blue-fade shadow-lg">
             <div class="card-body">
               <h5 class="card-title">{{ prediction.status }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
+              <h6 class="card-subtitle mb-2">
                 {{
                   new Date(prediction.event_date).toLocaleDateString() +
                   " - " +
@@ -29,7 +29,7 @@
                       <figcaption>{{ prediction.home_team.name }}</figcaption>
                     </figure>
                     <input
-                      v-bind:readonly="prediction.status != 'Not Started'"
+                      v-bind:readonly="prediction.short_status != 'NS'"
                       v-model="prediction.predictions[0].home_team_prediction"
                       type="number"
                       class="form-control form-control-sm"
@@ -62,7 +62,7 @@
                       <figcaption>{{ prediction.away_team.name }}</figcaption>
                     </figure>
                     <input
-                      v-bind:readonly="prediction.status != 'Not Started'"
+                      v-bind:readonly="prediction.short_status != 'NS'"
                       v-model="prediction.predictions[0].away_team_prediction"
                       type="number"
                       class="form-control form-control-sm"
@@ -89,8 +89,15 @@
               >
                 Pronostico guardado 💪
               </div>
+              <div
+                v-if="errors === index"
+                class="alert alert-danger my-3"
+                role="alert"
+              >
+                Imposible..el partido ha comenzado! 😢
+              </div>
               <button
-                v-if="prediction.status === 'Not Started'"
+                v-if="prediction.short_status === 'NS'"
                 type="submit"
                 class="btn btn-purple my-3"
               >
@@ -113,6 +120,13 @@ export default {
     };
   },
 
+  watch: {
+    // whenever question changes, this function will run
+    predictions: function (oldPredictions, newPredictions) {
+      this.errors = "";
+      this.saved = {};
+    },
+  },
   mounted() {
     this.$store.dispatch("getPredictions").then((resp) => {
       console.log("got single prediction");
@@ -126,6 +140,7 @@ export default {
   },
   methods: {
     savePrediction: function (index) {
+      this.errors = "";
       let data = {
         fixture_id: this.predictions[index].fixture_id,
         home_team_prediction: this.predictions[index].predictions[0]
@@ -140,6 +155,9 @@ export default {
         })
         .then((resp) => {
           this.saved = index;
+        })
+        .catch((resp) => {
+          this.errors = index;
         });
     },
   },

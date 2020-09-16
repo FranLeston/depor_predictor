@@ -19,8 +19,9 @@
 }
 
 .btn-purple {
-    background-color: $royal-purple;
-    color: #ffffff;
+    background-color: #fff;
+    color: $royal-purple;
+    border-color: $royal-purple;
 }
 
 .btn-purple:hover {
@@ -35,4 +36,38 @@
     background-color: darken($royal-purple, 3%);
     border-color: $royal-purple;
     box-shadow: 0 0 0 0.2rem rgba(86, 22, 94, 0.5);
+}
+
+.btn-depor-blue {
+    background-color: $depor-blue;
+    color: #ffffff;
+}
+
+.btn-depor-blue:hover {
+    color: #ffffff;
+    background-color: darken($depor-blue, 3%);
+    border-color: $depor-blue;
+}
+
+.btn-depor-blue:focus,
+.btn-depor-blue.focus {
+    color: #ffffff;
+    background-color: darken($depor-blue, 3%);
+    border-color: $depor-blue;
+    box-shadow: 0 0 0 0.2rem rgba(86, 22, 94, 0.5);
+}
+
+.depor-blue-fade {
+    color: #fff;
+    background: #0575e6; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to right,
+        #004a99,
+        $royal-purple
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #004a99,
+        $royal-purple
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }

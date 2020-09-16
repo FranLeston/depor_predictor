@@ -10933,21 +10933,50 @@ a.text-dark:focus {
 }
 
 .btn-purple {
-  background-color: #56165e;
-  color: #ffffff;
+  background-color: #fff;
+  color: #724778;
+  border-color: #724778;
 }
 
 .btn-purple:hover {
   color: #ffffff;
-  background-color: #4b1352;
-  border-color: #56165e;
+  background-color: #69416e;
+  border-color: #724778;
 }
 
 .btn-purple:focus,
 .btn-purple.focus {
   color: #ffffff;
-  background-color: #4b1352;
-  border-color: #56165e;
+  background-color: #69416e;
+  border-color: #724778;
   box-shadow: 0 0 0 0.2rem rgba(86, 22, 94, 0.5);
+}
+
+.btn-depor-blue {
+  background-color: #004a99;
+  color: #ffffff;
+}
+
+.btn-depor-blue:hover {
+  color: #ffffff;
+  background-color: #00438a;
+  border-color: #004a99;
+}
+
+.btn-depor-blue:focus,
+.btn-depor-blue.focus {
+  color: #ffffff;
+  background-color: #00438a;
+  border-color: #004a99;
+  box-shadow: 0 0 0 0.2rem rgba(86, 22, 94, 0.5);
+}
+
+.depor-blue-fade {
+  color: #fff;
+  background: #0575e6;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #004a99, #724778);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 

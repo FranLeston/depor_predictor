@@ -29,7 +29,7 @@ class PredictionController extends Controller
 
         if ($request->has('status')) {
             $fixtures->where(function ($query) use ($request) {
-                $query->where('status', $request->input('status'));
+                $query->where('short_status', $request->input('status'));
             });
         }
         if ($request->has('round')) {
@@ -71,18 +71,28 @@ class PredictionController extends Controller
             'away_team_prediction' => ['required', 'integer'],
         ]);
 
-        $prediction = Prediction::updateOrCreate([
+        //Check if Match Status is playable
+        $fixture = Fixture::where('fixture_id', $data['fixture_id'])->first();
+        $validMatches = array("NS");
+        $matchStatus = $fixture->short_status;
+        if (in_array($matchStatus, $validMatches)) {
 
-            'fixture_id' => $data['fixture_id'],
-            'user_id' => Auth::user()->id,
-        ],
-            ['user_id' => Auth::user()->id,
+            $prediction = Prediction::updateOrCreate([
+
                 'fixture_id' => $data['fixture_id'],
-                'home_team_prediction' => $data['home_team_prediction'],
-                'away_team_prediction' => $data['away_team_prediction'],
-            ]);
+                'user_id' => Auth::user()->id,
+            ],
+                ['user_id' => Auth::user()->id,
+                    'fixture_id' => $data['fixture_id'],
+                    'home_team_prediction' => $data['home_team_prediction'],
+                    'away_team_prediction' => $data['away_team_prediction'],
+                ]);
 
-        return response()->json(['prediction' => $prediction], 200);
+            return response()->json(['prediction' => $prediction], 200);
+        } else {
+            return response()->json(['message' => "El partido ya ha comenzado y se ha cerrado el pronóstico."], 422);
+
+        }
     }
 
     /**

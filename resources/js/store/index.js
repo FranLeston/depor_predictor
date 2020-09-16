@@ -127,7 +127,7 @@ export default new Vuex.Store({
         getCurrentFixtures ({ commit }) {
             return new Promise((resolve, reject) => {
                 axios({
-                    url: `/api/v1/fixtures?league_id=${data.LEAGUE_ID}&is_current=1&status=Not%20Started`, data: {}, method: 'GET'
+                    url: `/api/v1/fixtures?league_id=${data.LEAGUE_ID}&is_current=1&status=NS`, data: {}, method: 'GET'
                 })
                     .then(resp => {
                         const fixtures = resp.data.fixtures;

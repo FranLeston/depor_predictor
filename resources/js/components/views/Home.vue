@@ -3,6 +3,7 @@
     <div class="col-md-8">
       <div class="row">
         <div class="col-md-3">
+          <span class="h4">Ranking Global</span>
           <rankingTable></rankingTable>
         </div>
       </div>

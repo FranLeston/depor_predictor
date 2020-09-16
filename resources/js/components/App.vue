@@ -28,16 +28,35 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <router-link v-if="isLoggedIn" class="nav-link" to="/predictions"
-              >Mis Pronosticos</router-link
+              >Pronosticos</router-link
             >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/rankings">Rankings</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/rules">Reglas</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/leaguetable"
-              >Clasificación</router-link
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
+              El Depor
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Clasificacion</a>
+              <a class="dropdown-item" href="#">Jugadores</a>
+              <a class="dropdown-item" href="#">Estadisticas</a>
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
           </li>
         </ul>
         <ul v-if="isLoggedIn" class="navbar-nav ml-auto">
@@ -128,8 +147,23 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 .wrapper {
   margin: 15px 15px 15px 15px;
+}
+
+.depor-blue-fade {
+  color: #fff;
+  background: #0575e6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #004a99,
+    #0575e6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #004a99,
+    #0575e6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 </style>
