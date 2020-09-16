@@ -2,13 +2,15 @@
   <div class="row">
     <div class="col-md-8">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col">
           <span class="h4">Ranking Global</span>
           <rankingTable></rankingTable>
         </div>
       </div>
     </div>
     <div class="col-md-4">
+      <span class="h4">Haz tu Quini!</span>
+
       <currentFixturesStatic></currentFixturesStatic>
     </div>
   </div>

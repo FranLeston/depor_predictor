@@ -70,22 +70,30 @@
 <script>
 export default {
   mounted() {
-    this.$store.dispatch("getRankings").then((resp) => {
-      console.log("got rankings");
+    this.$store.dispatch("getCurrentRound").then((resp) => {
+      console.log("got current round");
     });
+    this.$store
+      .dispatch("getWeeklyRankings", this.currentRound[0].round)
+      .then((resp) => {
+        console.log("got rankings");
+      });
   },
   computed: {
     users: function () {
-      return this.$store.getters.rankings;
+      return this.$store.getters.weeklyRankings;
     },
     currentUser: function () {
       return this.$store.getters.currentUser;
     },
+    currentRound: function () {
+      return this.$store.getters.currentRound;
+    },
   },
   methods: {
     handlePage(e) {
-      this.$store.dispatch("getRankings", e).then((resp) => {
-        console.log("got next rankings");
+      this.$store.dispatch("getWeeklyRankingsPages", e).then((resp) => {
+        console.log("got next weekly rankings");
       });
     },
   },

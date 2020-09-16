@@ -136,4 +136,41 @@ class UserController extends Controller
     {
         //
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function weeklyRankings(Request $request)
+    {
+
+        if ($request->has('league_id')) {
+            $league_id = $request->input('league_id');
+        }
+        if ($request->has('round')) {
+            $round = $request->input('round');
+        }
+
+        $users = User::join('predictions', 'predictions.user_id', '=', 'users.id')
+            ->join('fixtures', 'fixtures.fixture_id', '=', 'predictions.fixture_id')
+            ->join('leagues', 'leagues.league_id', '=', 'fixtures.league_id')
+            ->select(
+                'users.avatar',
+                'users.name',
+                'users.id',
+                DB::raw('SUM(predictions.points) as total'),
+                DB::raw('COUNT(predictions.points) as played'))
+            ->where('leagues.league_id', '=', $league_id)
+            ->where('fixtures.round', '=', $round)
+            ->orderBy('total', 'DESC')
+            ->groupBy('users.name')->paginate(10);
+        $path = $request->url();
+        $query = $request->query();
+
+        $users->withPath($path . '?league_id=' . $query['league_id'] . '&round=' . $query['round']);
+
+        return response()->json(['users' => $users], 200);
+
+    }
 }

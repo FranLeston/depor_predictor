@@ -1,6 +1,6 @@
 <template>
   <div class="card text-center shadow-lg">
-    <div class="card-header">
+    <div class="card-header depor-blue-fade">
       <div class="col">
         <span> Temporada: {{ currentFixtures[0].league.season }} </span>
       </div>
@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="card-footer">
+    <div class="card-footer depor-blue-fade">
       <router-link to="/predictions" class="btn btn-purple">Jugar</router-link>
     </div>
   </div>

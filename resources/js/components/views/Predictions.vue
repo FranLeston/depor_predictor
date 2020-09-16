@@ -12,7 +12,7 @@
           :key="index"
           :data-round="round.round"
         >
-          {{ round.round }}
+          {{ "Jornada - " + round.round.split("-").pop() }}
         </option>
       </select>
     </div>

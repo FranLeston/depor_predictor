@@ -22,7 +22,8 @@ export default new Vuex.Store({
         allRounds: {},
         rankings: {},
         userPoints: {},
-        league_id: data.LEAGUE_ID
+        weeklyRankings: {},
+        league_id: data.LEAGUE_ID,
 
     },
     mutations: {
@@ -62,6 +63,9 @@ export default new Vuex.Store({
         },
         setRankings (state, rankings) {
             state.rankings = rankings;
+        },
+        setWeeklyRankings (state, weeklyRankings) {
+            state.weeklyRankings = weeklyRankings;
         },
         setUserPoints (state, user) {
             state.userPoints = user;
@@ -178,15 +182,64 @@ export default new Vuex.Store({
                     });
             });
         },
-        getRankings ({ commit }) {
+        getRankings ({ commit }, page) {
+            return new Promise((resolve, reject) => {
+                if (page) {
+                    axios({
+                        url: page, data: {}, method: 'GET'
+                    })
+                        .then(resp => {
+                            let rankings = resp.data.users;
+
+                            commit('setRankings', rankings);
+                            resolve(resp);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    axios({
+                        url: `/api/v1/users?league_id=${data.LEAGUE_ID}`, data: {}, method: 'GET'
+                    })
+                        .then(resp => {
+                            let rankings = resp.data.users;
+
+                            commit('setRankings', rankings);
+                            resolve(resp);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                }
+            });
+        },
+        getWeeklyRankings ({ commit }, currentRound, page) {
+
             return new Promise((resolve, reject) => {
                 axios({
-                    url: `/api/v1/users?league_id=${data.LEAGUE_ID}`, data: {}, method: 'GET'
+                    url: `/api/v1/users/weekly/rankings?league_id=${data.LEAGUE_ID}&round=${currentRound}`, data: {}, method: 'GET'
                 })
                     .then(resp => {
                         let rankings = resp.data.users;
 
-                        commit('setRankings', rankings);
+                        commit('setWeeklyRankings', rankings);
+                        resolve(resp);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
+        },
+        getWeeklyRankingsPages ({ commit }, page) {
+
+            return new Promise((resolve, reject) => {
+                axios({
+                    url: page, data: {}, method: 'GET'
+                })
+                    .then(resp => {
+                        let rankings = resp.data.users;
+
+                        commit('setWeeklyRankings', rankings);
                         resolve(resp);
                     })
                     .catch(err => {
@@ -304,6 +357,7 @@ export default new Vuex.Store({
         selectedPredictions: state => state.selectedPredictions,
         allRounds: state => state.allRounds,
         rankings: state => state.rankings,
-        userPoints: state => state.userPoints
+        userPoints: state => state.userPoints,
+        weeklyRankings: state => state.weeklyRankings
     }
 });
