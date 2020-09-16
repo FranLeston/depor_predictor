@@ -66,6 +66,12 @@
             </span>
             <span class="nav-link active my-2 h5" v-else>0 Pts</span>
           </li>
+          <li class="nav-item">
+            <span v-if="userPoints[0]" class="nav-link active my-2 h5"
+              >{{ userPoints[0].rank || 0 }}º Puesto
+            </span>
+            <span class="nav-link active my-2 h5" v-else>0 Pts</span>
+          </li>
 
           <li class="nav-item dropdown">
             <a

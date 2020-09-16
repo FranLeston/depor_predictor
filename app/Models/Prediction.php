@@ -12,7 +12,7 @@ class Prediction extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'fixture_id', 'home_team_prediction', 'away_team_prediction', 'points',
+        'user_id', 'fixture_id', 'home_team_prediction', 'away_team_prediction', 'is_exact', 'points',
     ];
 
     /**

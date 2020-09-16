@@ -47,6 +47,7 @@ class calculatePoints extends Command
             $matchStatus = $prediction->fixture->short_status;
             if (in_array($matchStatus, $validMatches)) {
                 $points = 0;
+                $is_exact = false;
                 $homePredict = $prediction->home_team_prediction;
                 $awayPredict = $prediction->away_team_prediction;
                 $home_final = $prediction->fixture->goals_home_team;
@@ -56,6 +57,7 @@ class calculatePoints extends Command
 
                     if ($home_final === $homePredict && $away_final === $awayPredict) {
                         $points = $points + 4;
+                        $is_exact = true;
                     } else if ($home_final === $homePredict || $away_final === $awayPredict) {
 
                         $points = $points + 3;
@@ -68,6 +70,7 @@ class calculatePoints extends Command
 
                     $newPrediction = Prediction::find($prediction->id);
                     $newPrediction->points = $points;
+                    $newPrediction->is_exact = $is_exact;
                     $newPrediction->save();
 
                 }

@@ -32,13 +32,13 @@
           </td>
           <td>{{ user.name }}</td>
           <td>{{ user.played }}</td>
-          <td>3</td>
+          <td>{{ user.exact ? user.exact : "0" }}</td>
           <td>{{ user.total ? user.total : "0" }}</td>
         </tr>
       </tbody>
     </table>
     <div class="col-md">
-      <nav aria-label="weekly-pagination">
+      <nav aria-label="weekly-pagination ">
         <ul class="pagination justify-content-center">
           <li class="page-item" :class="{ disabled: !users.prev_page_url }">
             <button
@@ -46,11 +46,11 @@
               @click="handlePage(users.prev_page_url)"
               tabindex="-1"
             >
-              Previous
+              Anterior
             </button>
           </li>
 
-          <li class="page-item active">
+          <li class="page-item">
             <button class="page-link">
               {{ users.current_page }} <span class="sr-only">(current)</span>
             </button>
@@ -58,7 +58,7 @@
 
           <li class="page-item" :class="{ disabled: !users.next_page_url }">
             <button class="page-link" @click="handlePage(users.next_page_url)">
-              Next
+              Siguiente
             </button>
           </li>
         </ul>

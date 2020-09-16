@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-md-4">
-      <span class="h4">Haz tu Quini!</span>
+      <span class="h4">En Juego</span>
 
       <currentFixturesStatic></currentFixturesStatic>
     </div>

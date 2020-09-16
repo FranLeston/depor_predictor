@@ -4,7 +4,7 @@
       <div class="col">
         <span> Temporada: {{ currentFixtures[0].league.season }} </span>
       </div>
-      <span>En Juego: {{ currentRound[0].round }}</span>
+      <span>{{ currentRound[0].round }}</span>
     </div>
     <div class="card-body p-0">
       <div class="card-text">

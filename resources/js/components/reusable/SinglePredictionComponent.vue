@@ -17,6 +17,8 @@
                   new Date(prediction.event_date).toLocaleTimeString()
                 }}
               </h6>
+              <span ref="timer"></span>
+
               <div class="card-text">
                 <div class="row">
                   <div class="col-4">
@@ -50,7 +52,7 @@
                         prediction.goals_away_team
                       }}
                     </span>
-                    <span v-else>0 - 0 </span>
+                    <span v-else>0 - 0</span>
                   </div>
                   <div class="col-4">
                     <figure>
@@ -77,7 +79,7 @@
                 v-if="prediction.predictions[0].points != null"
               >
                 <h4>
-                  <span class="badge badge-pill badge-depor"
+                  <span class="badge badge-pill badge-purple"
                     >Puntos: {{ prediction.predictions[0].points }}</span
                   >
                 </h4>
@@ -131,6 +133,32 @@ export default {
     this.$store.dispatch("getPredictions").then((resp) => {
       console.log("got single prediction");
     });
+    const vm = this;
+
+    var myfunc = setInterval(function () {
+      for (let index = 0; index < vm.predictions.length; index++) {
+        var countDownDate = new Date(
+          vm.predictions[index].event_timestamp
+        ).getTime();
+        var now = new Date().getTime();
+        var timeleft = countDownDate - now;
+
+        // Calculating the days, hours, minutes and seconds left
+        var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+        var hours = Math.floor(
+          (timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+        var timeLeft = `${days} d, ${hours}h ${minutes}m ${seconds}s`;
+        vm.$refs.timer[index].innerHTML = timeLeft;
+
+        if (timeleft < 0) {
+          clearInterval(myfunc);
+          vm.$refs.timer[index].innerHTML = "";
+        }
+      }
+    }, 1000);
   },
 
   computed: {
@@ -167,6 +195,11 @@ export default {
 <style lang="css" scoped>
 .badge-depor {
   background-color: #004a99;
+  color: #ffffff;
+}
+
+.badge-purple {
+  background-color: #724778;
   color: #ffffff;
 }
 </style>
