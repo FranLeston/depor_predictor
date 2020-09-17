@@ -20,6 +20,7 @@ export default new Vuex.Store({
         predictions: {},
         selectedPredictions: {},
         allRounds: {},
+        activeRound: null,
         rankings: {},
         userPoints: {},
         weeklyRankings: {},
@@ -55,6 +56,10 @@ export default new Vuex.Store({
         setAllRounds (state, rounds) {
             state.allRounds = rounds;
         },
+        setActiveRound (state, round) {
+            state.activeRound = round;
+        },
+
         setPredictions (state, predictions) {
             state.predictions = predictions;
         },

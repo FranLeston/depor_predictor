@@ -2,7 +2,15 @@
   <div>
     <div class="row justify-content-between">
       <div class="col-md-6 mb-3">
-        <select
+        <vselect
+          :clearable="false"
+          :options="$store.state.allRounds"
+          label="round"
+          :value="$store.state.activeRound"
+          @input="getRankingsForRound($event)"
+        >
+        </vselect>
+        <!-- <select
           class="form-control"
           v-model="currentRound[0].id"
           @change="getRankingsForRound($event)"
@@ -15,7 +23,7 @@
           >
             {{ "Jornada - " + round.round.split("-").pop() }}
           </option>
-        </select>
+        </select> -->
       </div>
     </div>
     <div class="row">
@@ -33,6 +41,7 @@
 <script>
 import rankingTable from "./../reusable/RankingTable";
 import weeklyTable from "./../reusable/WeeklyRankingTable";
+import vselect from "vue-select";
 
 export default {
   data() {
@@ -43,6 +52,7 @@ export default {
   components: {
     rankingTable,
     weeklyTable,
+    vselect,
   },
   mounted() {
     if (this.user.id) {
@@ -61,13 +71,15 @@ export default {
     allRounds: function () {
       return this.$store.getters.allRounds;
     },
+    activeRound: function () {
+      return this.$store.state.activeRound;
+    },
   },
   methods: {
     getRankingsForRound: function (e) {
-      if (e.target.options.selectedIndex > -1) {
-        var selectedRound =
-          e.target.options[e.target.options.selectedIndex].dataset.round;
-      }
+      this.$store.commit("setActiveRound", e);
+      var selectedRound = e.round;
+
       this.$store.dispatch("getWeeklyRankings", selectedRound).then((resp) => {
         console.log("got selected predictions");
       });

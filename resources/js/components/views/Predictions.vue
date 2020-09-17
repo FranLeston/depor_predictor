@@ -1,7 +1,15 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <select
+      <vselect
+        :clearable="false"
+        :options="$store.state.allRounds"
+        label="round"
+        :value="$store.state.activeRound"
+        @input="getGamesForRound($event)"
+      >
+      </vselect>
+      <!-- <select
         class="form-control"
         v-model="currentRound[0].id"
         @change="getGamesForRound($event)"
@@ -14,7 +22,7 @@
         >
           {{ "Jornada - " + round.round.split("-").pop() }}
         </option>
-      </select>
+      </select> -->
     </div>
 
     <SinglePredictionComponent></SinglePredictionComponent>
@@ -22,8 +30,11 @@
 </template>
 <script>
 import SinglePredictionComponent from "./../reusable/SinglePredictionComponent";
-
+import vselect from "vue-select";
 export default {
+  data() {
+    return {};
+  },
   mounted() {
     this.$store.dispatch("getAllRounds").then((resp) => {
       console.log("got all rounds");
@@ -34,6 +45,7 @@ export default {
   },
   components: {
     SinglePredictionComponent,
+    vselect,
   },
   computed: {
     allRounds: function () {
@@ -42,13 +54,16 @@ export default {
     currentRound: function () {
       return this.$store.getters.currentRound;
     },
+    activeRound: function () {
+      return this.$store.state.activeRound;
+    },
   },
   methods: {
     getGamesForRound: function (e) {
-      if (e.target.options.selectedIndex > -1) {
-        var selectedRound =
-          e.target.options[e.target.options.selectedIndex].dataset.round;
-      }
+      this.$store.commit("setActiveRound", e);
+      var selectedRound = e.round;
+
+
       this.$store
         .dispatch("getSelectedPredictions", selectedRound)
         .then((resp) => {
@@ -58,5 +73,14 @@ export default {
   },
 };
 </script>
-<style>
+<style lang="css" scoped>
+input[type="search"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.dropdown-toggle {
+  height: 30px;
+}
 </style>

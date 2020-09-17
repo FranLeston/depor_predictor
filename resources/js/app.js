@@ -9,6 +9,8 @@ window.Vue = require("vue");
 import store from "./store";
 import router from "./router";
 
+
+
 import Axios from 'axios';
 
 Vue.prototype.$http = Axios;
@@ -34,7 +36,8 @@ if (token) {
 
 Vue.component(
     "App",
-    require("./components/App.vue").default
+    require("./components/App.vue").default,
+
 );
 /**
  * Next, we will create a fresh Vue application instance and attach it to
