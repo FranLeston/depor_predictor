@@ -50,7 +50,7 @@ class getFixtures extends Command
     }
     public function getAllSecondDivBFixtures()
     {
-        $secondDivBLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda B - Group 1")->first();
+        $secondDivBLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda B - Group 3")->first();
         $apiService = new FootballApiService();
 
         $fixtureResults = $apiService->getAllFixturesByLeagueId($secondDivBLeague->league_id);
@@ -63,6 +63,7 @@ class getFixtures extends Command
         $this->info("Getting Segunda B - Group 1 Fixtures...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
+            var_dump($fixture);
             if ($currentRound == $fixture->round) {
                 $is_current = true;
             } else {
@@ -205,6 +206,7 @@ class getFixtures extends Command
             } else {
                 $is_current = false;
             }
+            var_dump($league->league_id);
 
             Round::updateOrCreate([
 

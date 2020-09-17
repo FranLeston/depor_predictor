@@ -35,6 +35,7 @@ export default {
         console.log("got user ranking");
       });
     }
+
   },
   computed: {
     currentUser: function () {

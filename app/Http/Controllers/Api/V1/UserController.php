@@ -81,10 +81,14 @@ class UserController extends Controller
             ->orderBy('total', 'DESC')
             ->groupBy('users.name')->get();
 
-        foreach ($users as $key => $user) {
-            if ($user->id == $id) {
-                $rank = $key + 1;
+        if (count($users) > 1) {
+            foreach ($users as $key => $user) {
+                if ($user->id == $id) {
+                    $rank = $key + 1;
+                }
             }
+        } else {
+            $rank = 0;
         }
 
         $user = User::join('predictions', 'predictions.user_id', '=', 'users.id')
@@ -102,7 +106,9 @@ class UserController extends Controller
             ->orderBy('total', 'DESC')
             ->groupBy('users.name')->get();
 
-        $user[0]->rank = $rank;
+        if (count($user) > 1) {
+            $user[0]->rank = $rank;
+        }
 
         return response()->json(['user' => $user], 200);
     }

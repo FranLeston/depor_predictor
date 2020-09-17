@@ -16,7 +16,7 @@ class CreateFixturesTable extends Migration
         Schema::create('fixtures', function (Blueprint $table) {
             $table->id();
             $table->integer('fixture_id');
-            $table->foreignId('league_id')->constrained();
+            $table->integer('league_id');
             $table->dateTime('event_date');
             $table->timestamp('event_timestamp')->nullable();
             $table->string('round');

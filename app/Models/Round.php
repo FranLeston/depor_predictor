@@ -18,8 +18,8 @@ class Round extends Model
     /**
      * Get the fixture that owns the round
      */
-    public function fixture()
-    {
-        return $this->belongsTo('App\Models\Fixture');
-    }
+    // public function fixture()
+    // {
+    //     return $this->belongsTo('App\Models\Fixture');
+    // }
 }

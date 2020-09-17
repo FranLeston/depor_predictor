@@ -15,7 +15,7 @@ class CreateRoundsTable extends Migration
     {
         Schema::create('rounds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('league_id')->constrained();
+            $table->integer('league_id');
             $table->string('round')->nullable();
             $table->boolean('is_current')->default(false);
             $table->timestamps();

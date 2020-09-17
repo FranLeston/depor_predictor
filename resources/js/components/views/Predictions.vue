@@ -1,14 +1,14 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <vselect
+      <v-select
         :clearable="false"
         :options="$store.state.allRounds"
         label="round"
         :value="$store.state.activeRound"
         @input="getGamesForRound($event)"
       >
-      </vselect>
+      </v-select>
       <!-- <select
         class="form-control"
         v-model="currentRound[0].id"
@@ -30,12 +30,11 @@
 </template>
 <script>
 import SinglePredictionComponent from "./../reusable/SinglePredictionComponent";
-import vselect from "vue-select";
 export default {
   data() {
     return {};
   },
-  mounted() {
+  mount() {
     this.$store.dispatch("getAllRounds").then((resp) => {
       console.log("got all rounds");
     });
@@ -45,24 +44,12 @@ export default {
   },
   components: {
     SinglePredictionComponent,
-    vselect,
   },
-  computed: {
-    allRounds: function () {
-      return this.$store.getters.allRounds;
-    },
-    currentRound: function () {
-      return this.$store.getters.currentRound;
-    },
-    activeRound: function () {
-      return this.$store.state.activeRound;
-    },
-  },
+  computed: {},
   methods: {
     getGamesForRound: function (e) {
       this.$store.commit("setActiveRound", e);
       var selectedRound = e.round;
-
 
       this.$store
         .dispatch("getSelectedPredictions", selectedRound)

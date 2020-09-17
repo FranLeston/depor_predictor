@@ -2,9 +2,9 @@
   <div class="card text-center shadow-lg">
     <div class="card-header depor-blue-fade">
       <div class="col">
-        <span> Temporada: {{ currentFixtures[0].league.season }} </span>
+        <span> Temporada: 2020 </span>
       </div>
-      <span>{{ currentRound[0].round }}</span>
+      <span>{{ $store.state.activeRound[0].round }}</span>
     </div>
     <div class="card-body p-0">
       <div class="card-text">
@@ -46,43 +46,10 @@
       <router-link to="/predictions" class="btn btn-purple">Jugar</router-link>
     </div>
   </div>
-
-  <!-- <table class="table table-sm">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Fecha</th>
-          <th scope="col">Logo</th>
-          <th scope="col">Local</th>
-          <th scope="col">Logo</th>
-          <th scope="col">Visitante</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(fixture, index) in currentFixtures" :key="index">
-          <th scope="row">{{ index }}</th>
-          <td>
-            {{
-              new Date(fixture.event_timestamp + " GMT").toLocaleDateString() +
-              " " +
-              new Date(fixture.event_timestamp + " GMT").toLocaleTimeString()
-            }}
-          </td>
-          <td>
-            <img :src="fixture.home_team.logo" width="30" height="30" />
-          </td>
-          <td>{{ fixture.home_team.name }}</td>
-          <td>
-            <img :src="fixture.away_team.logo" width="30" height="30" />
-          </td>
-          <td>{{ fixture.away_team.name }}</td>
-        </tr>
-      </tbody>
-    </table> -->
 </template>
 <script>
 export default {
-  mounted() {
+  created() {
     this.$store.dispatch("getCurrentFixtures").then((resp) => {
       console.log("got current fixtures");
     });

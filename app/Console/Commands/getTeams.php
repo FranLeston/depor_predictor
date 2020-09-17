@@ -98,7 +98,7 @@ class getTeams extends Command
 
     public function getSpainSecondBDivTeams()
     {
-        $secondDivBLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda B - Group 1")->first();
+        $secondDivBLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda B - Group 3")->first();
         $apiService = new FootballApiService();
         $results = $apiService->getTeamsByLeague($secondDivBLeague->league_id);
 

@@ -2,14 +2,14 @@
   <div>
     <div class="row justify-content-between">
       <div class="col-md-6 mb-3">
-        <vselect
+        <v-select
           :clearable="false"
           :options="$store.state.allRounds"
           label="round"
           :value="$store.state.activeRound"
           @input="getRankingsForRound($event)"
         >
-        </vselect>
+        </v-select>
         <!-- <select
           class="form-control"
           v-model="currentRound[0].id"
@@ -41,7 +41,6 @@
 <script>
 import rankingTable from "./../reusable/RankingTable";
 import weeklyTable from "./../reusable/WeeklyRankingTable";
-import vselect from "vue-select";
 
 export default {
   data() {
@@ -52,7 +51,6 @@ export default {
   components: {
     rankingTable,
     weeklyTable,
-    vselect,
   },
   mounted() {
     if (this.user.id) {
@@ -61,20 +59,7 @@ export default {
       });
     }
   },
-  computed: {
-    currentUser: function () {
-      return this.$store.getters.currentUser;
-    },
-    currentRound: function () {
-      return this.$store.getters.currentRound;
-    },
-    allRounds: function () {
-      return this.$store.getters.allRounds;
-    },
-    activeRound: function () {
-      return this.$store.state.activeRound;
-    },
-  },
+  computed: {},
   methods: {
     getRankingsForRound: function (e) {
       this.$store.commit("setActiveRound", e);

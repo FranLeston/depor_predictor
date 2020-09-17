@@ -8,6 +8,7 @@ require("./bootstrap");
 window.Vue = require("vue");
 import store from "./store";
 import router from "./router";
+import vSelect from "vue-select";
 
 
 
@@ -39,6 +40,14 @@ Vue.component(
     require("./components/App.vue").default,
 
 );
+Vue.component('v-select', vSelect);
+
+store.dispatch("getAllRounds").then((resp) => {
+    console.log("got all rounds");
+});
+store.dispatch("getCurrentRound").then((resp) => {
+    console.log("got current round");
+});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
