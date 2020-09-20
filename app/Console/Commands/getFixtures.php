@@ -50,7 +50,7 @@ class getFixtures extends Command
     }
     public function getAllSecondDivBFixtures()
     {
-        $secondDivBLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda B - Group 3")->first();
+        $secondDivBLeague = League::where("is_current", 1)->where('country', "Spain")->where('name', "Segunda B - Group 1")->first();
         $apiService = new FootballApiService();
 
         $fixtureResults = $apiService->getAllFixturesByLeagueId($secondDivBLeague->league_id);
@@ -63,7 +63,6 @@ class getFixtures extends Command
         $this->info("Getting Segunda B - Group 1 Fixtures...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
-            var_dump($fixture);
             if ($currentRound == $fixture->round) {
                 $is_current = true;
             } else {
@@ -77,10 +76,10 @@ class getFixtures extends Command
                 'league_id' => $fixture->league_id,
                 'event_date' => Carbon::parse($fixture->event_date)->format('Y-m-d H:i:s'),
                 'event_timestamp' => Carbon::createFromTimestamp($fixture->event_timestamp)->format('Y-m-d H:i:s'),
-
                 'round' => $fixture->round,
                 'is_current' => $is_current,
                 'status' => $fixture->status,
+                'status_esp' => $this->getStatusEsp($fixture->statusShort),
                 'short_status' => $fixture->statusShort,
                 'home_team_id' => $fixture->homeTeam->team_id,
                 'away_team_id' => $fixture->awayTeam->team_id,
@@ -127,6 +126,7 @@ class getFixtures extends Command
                 'round' => $fixture->round,
                 'is_current' => $is_current,
                 'short_status' => $fixture->statusShort,
+                'status_esp' => $this->getStatusEsp($fixture->statusShort),
                 'status' => $fixture->status,
                 'home_team_id' => $fixture->homeTeam->team_id,
                 'away_team_id' => $fixture->awayTeam->team_id,
@@ -172,6 +172,7 @@ class getFixtures extends Command
                 'round' => $fixture->round,
                 'is_current' => $is_current,
                 'status' => $fixture->status,
+                'status_esp' => $this->getStatusEsp($fixture->statusShort),
                 'short_status' => $fixture->statusShort,
                 'home_team_id' => $fixture->homeTeam->team_id,
                 'away_team_id' => $fixture->awayTeam->team_id,
@@ -206,7 +207,6 @@ class getFixtures extends Command
             } else {
                 $is_current = false;
             }
-            var_dump($league->league_id);
 
             Round::updateOrCreate([
 
@@ -228,18 +228,69 @@ class getFixtures extends Command
 
     }
 
-    // public function updateRounds()
-    // {
+    public function getStatusEsp($status)
+    {
 
-    //     $spanish1Div = League::where(country)
+        switch ($status) {
+            case 'TBD':
+                return "Sin Hora";
+                break;
+            case 'NS':
+                return "Sin Empezar";
+                break;
+            case '1H':
+                return "Primera Parte";
+                break;
+            case 'HT':
+                return "Medio Tiempo";
+                break;
+            case '2H':
+                return "Segunda Parte";
+                break;
+            case 'ET':
+                return "Prorroga";
+                break;
+            case 'P':
+                return "Penalti Señalado";
+                break;
+            case 'FT':
+                return "Finalizado";
+                break;
+            case 'AET':
+                return "Finalizado Con Prorroga";
+                break;
+            case 'PEN':
+                return "Finalizado Con Penaltis";
+                break;
+            case 'BT':
+                return "Tiempo Muerto";
+                break;
+            case 'SUSP':
+                return "Partido Suspendido";
+                break;
+            case 'INT':
+                return "Partido Interrumpido";
+                break;
+            case 'PST':
+                return "Partido Aplazado";
+                break;
+            case 'CANC':
+                return "Partido Cancelado";
+                break;
+            case 'ABD':
+                return "Partido Abandonado";
+                break;
+            case 'AWD':
+                return "Partido Perdido Tecnico";
+                break;
+            case 'WO':
+                return "Partido Triunfo Tecnico";
+                break;
+            default:
+                return "Sin Estado";
+                break;
+        }
 
-    //     $leagues = League::all();
-
-    //     if (isset($leagues)) {
-    //         foreach ($leagues as $key => $league) {
-    //             $this->updateRoundsByLeague($league->league_id, $league->name);
-    //         }
-    //     }
-    // }
+    }
 
 }

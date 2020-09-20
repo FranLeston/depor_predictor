@@ -12,7 +12,7 @@ class Fixture extends Model
      * @var array
      */
     protected $fillable = [
-        'fixture_id', 'league_id', 'event_date', 'event_timestamp', 'round', 'is_current', 'status', 'short_status', 'home_team_id', 'away_team_id',
+        'fixture_id', 'league_id', 'event_date', 'event_timestamp', 'round', 'is_current', 'status', 'status_esp', 'short_status', 'home_team_id', 'away_team_id',
         'goals_home_team', 'goals_away_team',
     ];
 

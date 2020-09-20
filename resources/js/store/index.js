@@ -157,8 +157,8 @@ export default new Vuex.Store({
                     .then(resp => {
                         let rounds = resp.data.rounds;
                         rounds.forEach(round => {
-                            var roundName = "Jornada - " + round.round.split("-").pop();
-                            round.round = roundName;
+                            let roundName = round.round.split("_");
+                            round.round = roundName[1];
                         });
                         commit('setCurrentRound', rounds);
                         commit('setActiveRound', rounds);
@@ -177,8 +177,8 @@ export default new Vuex.Store({
                     .then(resp => {
                         let rounds = resp.data.rounds;
                         rounds.forEach(round => {
-                            var roundName = "Jornada - " + round.round.split("-").pop();
-                            round.round = roundName;
+                            let roundName = round.round.split("_");
+                            round.round = roundName[1];
                         });
                         commit('setAllRounds', rounds);
                         resolve(resp);

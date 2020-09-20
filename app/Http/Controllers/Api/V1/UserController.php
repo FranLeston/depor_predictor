@@ -81,10 +81,11 @@ class UserController extends Controller
             ->orderBy('total', 'DESC')
             ->groupBy('users.name')->get();
 
-        if (count($users) > 1) {
+        if (count($users) > 0) {
             foreach ($users as $key => $user) {
                 if ($user->id == $id) {
                     $rank = $key + 1;
+
                 }
             }
         } else {
@@ -106,7 +107,7 @@ class UserController extends Controller
             ->orderBy('total', 'DESC')
             ->groupBy('users.name')->get();
 
-        if (count($user) > 1) {
+        if (count($user) > 0) {
             $user[0]->rank = $rank;
         }
 

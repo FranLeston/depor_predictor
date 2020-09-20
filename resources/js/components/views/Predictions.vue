@@ -34,7 +34,7 @@ export default {
   data() {
     return {};
   },
-  mount() {
+  mounted() {
     this.$store.dispatch("getAllRounds").then((resp) => {
       console.log("got all rounds");
     });
@@ -48,6 +48,7 @@ export default {
   computed: {},
   methods: {
     getGamesForRound: function (e) {
+      console.log(e);
       this.$store.commit("setActiveRound", e);
       var selectedRound = e.round;
 

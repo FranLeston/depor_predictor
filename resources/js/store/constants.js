@@ -1,6 +1,7 @@
 const data = {
     LEAGUE_ID: "2847" //SEGUNDA DIVISION
-    //SEGUNDA B
+    // LEAGUE_ID: "2964" //SEGUNDA DIVISION B G1
+
 
 };
 

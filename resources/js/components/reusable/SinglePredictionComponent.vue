@@ -7,15 +7,37 @@
         class="col-md-6 my-3"
       >
         <form @submit.prevent="savePrediction(index)">
-          <div class="card text-center depor-blue-fade shadow-lg">
+          <div
+            class="card text-center shadow-lg"
+            v-bind:class="{
+              'red-fade':
+                prediction.short_status != 'NS' ||
+                prediction.short_status != 'PST' ||
+                prediction.short_status != 'FT' ||
+                prediction.short_status != 'TBD',
+              'depor-blue-fade': prediction.short_status === 'NS',
+              'cloud-fade':
+                prediction.short_status === 'FT' ||
+                prediction.short_status === 'TBD',
+            }"
+          >
             <div class="card-body">
-              <h5 class="card-title">{{ prediction.status }}</h5>
-              <h6 class="card-subtitle mb-2">
+              <h5 class="card-title">{{ prediction.status_esp }}</h5>
+              <h6
+                v-if="
+                  prediction.short_status == 'NS' ||
+                  prediction.short_status == 'FT'
+                "
+                class="card-subtitle mb-2"
+              >
                 {{
                   new Date(prediction.event_date).toLocaleDateString() +
                   " - " +
                   new Date(prediction.event_date).toLocaleTimeString()
                 }}
+              </h6>
+              <h6 v-else class="card-subtitle mb-2">
+                {{ new Date(prediction.event_date).toLocaleDateString() }}
               </h6>
 
               <div class="card-text">
@@ -30,6 +52,7 @@
                       <figcaption>{{ prediction.home_team.name }}</figcaption>
                     </figure>
                     <input
+                      v-if="prediction.short_status === 'NS'"
                       v-bind:readonly="prediction.short_status != 'NS'"
                       v-model="prediction.predictions[0].home_team_prediction"
                       type="number"
@@ -40,6 +63,7 @@
                   </div>
                   <div class="col-4">
                     <span
+                      class="h4"
                       v-if="
                         prediction.goals_home_team != null &&
                         prediction.goals_away_team != null
@@ -63,6 +87,7 @@
                       <figcaption>{{ prediction.away_team.name }}</figcaption>
                     </figure>
                     <input
+                      v-if="prediction.short_status === 'NS'"
                       v-bind:readonly="prediction.short_status != 'NS'"
                       v-model="prediction.predictions[0].away_team_prediction"
                       type="number"
@@ -82,7 +107,24 @@
                     >Puntos: {{ prediction.predictions[0].points }}</span
                   >
                 </h4>
+                <div class="col-auto">
+                  <span
+                    >Tu Pronostico:
+                    {{
+                      prediction.predictions[0].home_team_prediction != null
+                        ? prediction.predictions[0].home_team_prediction
+                        : "X"
+                    }}
+                    -
+                    {{
+                      prediction.predictions[0].away_team_prediction != null
+                        ? prediction.predictions[0].away_team_prediction
+                        : "X"
+                    }}
+                  </span>
+                </div>
               </div>
+
               <div
                 v-if="saved === index"
                 class="alert alert-success my-3"
@@ -140,6 +182,15 @@ export default {
     },
   },
   methods: {
+    isRed: function (index) {
+      var status = this.$store.state.predictions[index].short_status;
+      console.log(status);
+      if (status === "NS") {
+        return true;
+      } else {
+        return true;
+      }
+    },
     savePrediction: function (index) {
       this.errors = "";
       let data = {
@@ -175,6 +226,4 @@ export default {
   background-color: #724778;
   color: #ffffff;
 }
-
-
 </style>
