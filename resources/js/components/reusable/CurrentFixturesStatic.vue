@@ -33,7 +33,10 @@
               </div>
               <div class="col">
                 <span>{{
-                  new Date(fixture.event_date).toLocaleTimeString()
+                  new Date(fixture.event_date).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
                 }}</span>
               </div>
             </div>
