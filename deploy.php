@@ -22,7 +22,7 @@ add('writable_dirs', []);
 // Hosts
 
 host('root@165.22.66.154')
-    ->set('deploy_path', '/var/www/depor_predictor')
+    ->set('deploy_path', '/var/www/quinidepor')
     ->set('branch', 'master');
 
 // Tasks
