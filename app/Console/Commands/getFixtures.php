@@ -43,9 +43,9 @@ class getFixtures extends Command
     public function handle()
     {
 
-        $this->getAllFirstDivFixtures();
+        //$this->getAllFirstDivFixtures();
         $this->getAllSecondDivFixtures();
-        $this->getAllSecondDivBFixtures();
+        //$this->getAllSecondDivBFixtures();
 
     }
     public function getAllSecondDivBFixtures()

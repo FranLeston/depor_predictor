@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Fixture;
+use App\Observers\FixtureObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Fixture::observe(FixtureObserver::class);
+
     }
 }
