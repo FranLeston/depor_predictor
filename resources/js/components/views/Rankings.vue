@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row justify-content-between">
-      <div class="col-md-6 mb-3">
+      <div class="col-sm-6 mb-3">
         <v-select
           :clearable="false"
           :options="$store.state.allRounds"
@@ -27,11 +27,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <span class="h4">Por Jornada</span>
         <weeklyTable></weeklyTable>
       </div>
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <span class="h4">Ranking Global</span>
         <rankingTable></rankingTable>
       </div>

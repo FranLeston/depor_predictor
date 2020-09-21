@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <v-select
         :clearable="false"
         :options="$store.state.allRounds"

@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-sm-8">
       <div class="row">
         <div class="col">
           <span class="h4">Ranking Global</span>
@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4">
       <span class="h4">En Juego</span>
 
       <currentFixturesStatic></currentFixturesStatic>
@@ -35,7 +35,6 @@ export default {
         console.log("got user ranking");
       });
     }
-
   },
   computed: {
     currentUser: function () {

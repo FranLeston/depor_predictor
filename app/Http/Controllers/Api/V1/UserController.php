@@ -105,6 +105,7 @@ class UserController extends Controller
             ->where('leagues.league_id', '=', $league_id)
             ->where('users.id', '=', $id)
             ->orderBy('total', 'DESC')
+            ->orderBy('exact', 'DESC')
             ->groupBy('users.name')->get();
 
         if (count($user) > 0) {
@@ -197,6 +198,7 @@ class UserController extends Controller
             ->where('leagues.league_id', '=', $league_id)
             ->where('fixtures.round', '=', $round)
             ->orderBy('total', 'DESC')
+            ->orderBy('exact', 'DESC')
             ->groupBy('users.name')->paginate(10);
         $path = $request->url();
         $query = $request->query();

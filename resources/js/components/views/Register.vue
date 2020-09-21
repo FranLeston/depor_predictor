@@ -81,9 +81,7 @@
             </span>
           </div>
         </div>
-        <button type="submit" class="btn btn-purple">
-          Login
-        </button>
+        <button type="submit" class="btn btn-purple">Registrar</button>
       </form>
     </div>
   </div>

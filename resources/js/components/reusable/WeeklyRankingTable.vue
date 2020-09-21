@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="table shadow-lg">
+    <table class="table table-striped table-sm shadow-lg">
       <thead class="depor-blue-fade">
         <tr>
           <th scope="col">#</th>
@@ -37,7 +37,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="col-md">
+    <div class="col-sm">
       <nav aria-label="weekly-pagination ">
         <ul class="pagination justify-content-center">
           <li class="page-item" :class="{ disabled: !users.prev_page_url }">

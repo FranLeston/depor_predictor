@@ -4,7 +4,7 @@
       <div
         v-for="(prediction, index) in predictions"
         :key="index"
-        class="col-md-6 my-3"
+        class="col-sm-6 my-3"
       >
         <form @submit.prevent="savePrediction(index)">
           <div
