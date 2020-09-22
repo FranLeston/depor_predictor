@@ -1,6 +1,6 @@
 <template>
   <div class="row no-gutters">
-    <div class="col-4 mx-auto my-auto text-center">
+    <div class="col-sm-4 mx-auto my-auto text-center">
       <form @submit.prevent="register">
         <img
           class="mb-4"
