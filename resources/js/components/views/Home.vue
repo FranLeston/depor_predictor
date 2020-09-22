@@ -10,7 +10,6 @@
     </div>
     <div class="col-sm-4">
       <span class="h4">En Juego</span>
-
       <currentFixturesStatic></currentFixturesStatic>
     </div>
   </div>

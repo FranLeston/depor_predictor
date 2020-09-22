@@ -79,6 +79,7 @@ class UserController extends Controller
                 DB::raw('COUNT(predictions.points) as played'))
             ->where('leagues.league_id', '=', $league_id)
             ->orderBy('total', 'DESC')
+            ->orderBy('exact', 'DESC')
             ->groupBy('users.name')->get();
 
         if (count($users) > 0) {

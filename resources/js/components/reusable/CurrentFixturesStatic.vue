@@ -1,7 +1,7 @@
 <template>
   <div class="card text-center shadow-lg">
     <div class="card-header depor-blue-fade">
-      <div class="col-sm">
+      <div class="col-md">
         <span> Temporada: 2020 </span>
       </div>
       <span>{{ $store.state.activeRound[0].round }}</span>

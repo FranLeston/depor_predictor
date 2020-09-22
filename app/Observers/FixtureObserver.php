@@ -31,9 +31,7 @@ class FixtureObserver
         if ($fixture->isDirty('short_status')) {
             // status has changed
             $new_status = $fixture->short_status;
-
             if ($this->isEnded($new_status)) {
-                var_dump($this->isEnded($new_status));
                 $this->calculatePoints();
             }
 
