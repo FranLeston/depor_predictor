@@ -56,7 +56,7 @@
                       v-bind:readonly="prediction.short_status != 'NS'"
                       v-model="prediction.predictions[0].home_team_prediction"
                       type="number"
-                      class="form-control form-control"
+                      class="form-control form-control-sm"
                       min="0"
                       required
                     />
@@ -91,7 +91,7 @@
                       v-bind:readonly="prediction.short_status != 'NS'"
                       v-model="prediction.predictions[0].away_team_prediction"
                       type="number"
-                      class="form-control form-control"
+                      class="form-control form-control-sm"
                       min="0"
                       required
                     />
