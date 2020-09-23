@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.row {
+/* .row {
   height: 75vh;
-}
+} */
 </style>

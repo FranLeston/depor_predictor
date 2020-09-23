@@ -4,25 +4,36 @@
     <div class="container text-left">
       <div class="row">
         <div class="col-sm-6">
-          <h5 class="title">Footer Content</h5>
+          <h5 class="title">Contacto</h5>
           <p>
-            Here you can use rows and columns here to organize your footer
-            content.
+            ¿Tienes alguna sugerencia o problema? Me gustaria mucho conocerla.
+            Ando por twitter en
+            <a href="https://twitter.com/FranLeston">@QuiniDepor</a> o
+            <a href="https://twitter.com/FranLeston">@FranLeston</a>
+            . Si lo prefieres, puedes mandarme un email:
+            <a href="mailto:fran.leston@outlook.com">fran.leston@outlook.com</a>
           </p>
         </div>
         <div class="col-sm-6">
-          <h5 class="title">Links</h5>
+          <h5 class="title">Enlaces</h5>
           <ul>
-            <li class="list-unstyled"><a href="#!">Link 1</a></li>
-            <li class="list-unstyled"><a href="#!">Link 2</a></li>
-            <li class="list-unstyled"><a href="#!">Link 3</a></li>
-            <li class="list-unstyled"><a href="#!">Link 4</a></li>
+            <li class="list-unstyled">
+              <router-link to="/pronosticos">Pronosticos</router-link>
+            </li>
+            <li class="list-unstyled">
+              <router-link to="/rankings">Rankings</router-link>
+            </li>
+            <li class="list-unstyled">
+              <router-link to="/rules">Reglas</router-link>
+            </li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-copyright text-center py-3">
       <div class="container-fluid">
+        <span>#VOLVEREMOS!</span>
+        <br />
         &copy; Copyright: {{ new Date().getFullYear() }}
         <a href="https://www.QuiniDepor.com"> QuiniDepor.com </a>
       </div>

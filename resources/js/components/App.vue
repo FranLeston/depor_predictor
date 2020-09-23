@@ -32,12 +32,14 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/rankings">Rankings</router-link>
+            <router-link v-if="isLoggedIn" class="nav-link" to="/rankings"
+              >Rankings</router-link
+            >
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/rules">Reglas</router-link>
           </li>
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -57,7 +59,7 @@
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
-          </li>
+          </li> -->
         </ul>
         <ul v-if="isLoggedIn" class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -111,7 +113,7 @@
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/register"
-                >Register</router-link
+                >Crear Cuenta</router-link
               >
             </li>
           </ul>
@@ -121,7 +123,11 @@
     <div class="wrapper">
       <router-view />
     </div>
-    <footersection></footersection>
+    <footersection
+      v-if="
+        isLoggedIn || this.$route.name == 'Home' || this.$route.name == 'Rules'
+      "
+    ></footersection>
   </div>
 </template>
 
@@ -130,6 +136,9 @@ import footersection from "./reusable/Footer";
 export default {
   components: {
     footersection,
+  },
+  mounted() {
+    console.log(this.$router);
   },
   computed: {
     isLoggedIn: function () {

@@ -59,7 +59,7 @@ class getFixtures extends Command
         $results = $apiService->getCurrentRoundOfLeague($secondDivBLeague->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
-        $this->updateRoundsByLeague($secondDivBLeague);
+        $this->updateRoundsByLeague($secondDivBLeague, $currentRound);
         $this->info("Getting Segunda B - Group 1 Fixtures...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
@@ -105,7 +105,7 @@ class getFixtures extends Command
         $results = $apiService->getCurrentRoundOfLeague($firstDivLeague->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
-        $this->updateRoundsByLeague($firstDivLeague);
+        $this->updateRoundsByLeague($firstDivLeague, $currentRound);
 
         $this->info("Getting Primera Division Fixtures...  Total:" . count($fixtures));
 
@@ -152,7 +152,7 @@ class getFixtures extends Command
         $results = $apiService->getCurrentRoundOfLeague($secondDivLeague->league_id);
         $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
-        $this->updateRoundsByLeague($secondDivLeague);
+        $this->updateRoundsByLeague($secondDivLeague, $currentRound);
         $this->info("Getting Segunda Division Teams...  Total:" . count($fixtures));
 
         foreach ($fixtures as $fixture) {
@@ -187,15 +187,12 @@ class getFixtures extends Command
 
     }
 
-    public function updateRoundsByLeague($league)
+    public function updateRoundsByLeague($league, $currentRound)
     {
         $apiService = new FootballApiService();
 
         $roundsResults = $apiService->getAllRoundsOfLeague($league->league_id);
         $rounds = $roundsResults->api->fixtures;
-
-        $results = $apiService->getCurrentRoundOfLeague($league->league_id);
-        $currentRound = str_replace('_', ' ', $results->api->fixtures[0]);
 
         $this->info("Getting Rounds...  Total:" . count($rounds));
 
