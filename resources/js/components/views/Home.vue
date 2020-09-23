@@ -3,13 +3,17 @@
     <div class="col-sm-8">
       <div class="row">
         <div class="col">
-          <span class="h4">Ranking Global</span>
+          <div class="my-3">
+            <span class="h4">Ranking Global</span>
+          </div>
           <rankingTable></rankingTable>
         </div>
       </div>
     </div>
-    <div class="col-sm-4">
-      <span class="h4">En Juego</span>
+    <div class="col">
+      <div class="my-3">
+        <span class="h4">En Juego</span>
+      </div>
       <currentFixturesStatic></currentFixturesStatic>
     </div>
   </div>
@@ -34,6 +38,9 @@ export default {
         console.log("got user ranking");
       });
     }
+    this.$store.dispatch("getCurrentRound").then((resp) => {
+      console.log("got current round");
+    });
   },
   computed: {
     currentUser: function () {

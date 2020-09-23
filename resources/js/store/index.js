@@ -2,6 +2,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import data from './constants';
+import router from '../router';
+
+
 
 
 Vue.use(Vuex);
@@ -20,7 +23,7 @@ export default new Vuex.Store({
         predictions: {},
         selectedPredictions: {},
         allRounds: {},
-        activeRound: null,
+        activeRound: {},
         rankings: {},
         userPoints: {},
         weeklyRankings: {},
@@ -129,6 +132,13 @@ export default new Vuex.Store({
                     })
                     .catch(err => {
                         commit('auth_error');
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -144,6 +154,13 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         commit('auth_error');
                         reject(err);
                     });
@@ -165,6 +182,13 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -184,6 +208,13 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -201,6 +232,13 @@ export default new Vuex.Store({
                             resolve(resp);
                         })
                         .catch(err => {
+                            if (err.response.status === 401) {
+                                commit('logout');
+                                localStorage.removeItem('token');
+                                localStorage.clear();
+                                delete axios.defaults.headers.common['Authorization'];
+                                router.push("/login");
+                            }
                             reject(err);
                         });
                 } else {
@@ -214,6 +252,13 @@ export default new Vuex.Store({
                             resolve(resp);
                         })
                         .catch(err => {
+                            if (err.response.status === 401) {
+                                commit('logout');
+                                localStorage.removeItem('token');
+                                localStorage.clear();
+                                delete axios.defaults.headers.common['Authorization'];
+                                router.push("/login");
+                            }
                             reject(err);
                         });
                 }
@@ -232,6 +277,13 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -249,6 +301,13 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -265,6 +324,13 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -280,6 +346,13 @@ export default new Vuex.Store({
                         resolve(resp);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -307,6 +380,13 @@ export default new Vuex.Store({
                         resolve(fixtures);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -334,6 +414,13 @@ export default new Vuex.Store({
                         resolve(fixtures);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -344,9 +431,17 @@ export default new Vuex.Store({
                     url: '/api/v1/predictions', ...data, method: 'POST'
                 })
                     .then(resp => {
+                        console.log('this is the response', resp);
                         resolve(resp);
                     })
                     .catch(err => {
+                        if (err.response.status === 401) {
+                            commit('logout');
+                            localStorage.removeItem('token');
+                            localStorage.clear();
+                            delete axios.defaults.headers.common['Authorization'];
+                            router.push("/login");
+                        }
                         reject(err);
                     });
             });
@@ -364,6 +459,7 @@ export default new Vuex.Store({
         allRounds: state => state.allRounds,
         rankings: state => state.rankings,
         userPoints: state => state.userPoints,
-        weeklyRankings: state => state.weeklyRankings
+        weeklyRankings: state => state.weeklyRankings,
+        activeRound: state => state.activeRound
     }
 });

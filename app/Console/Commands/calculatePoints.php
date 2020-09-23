@@ -63,7 +63,7 @@ class calculatePoints extends Command
                         $points = $points + 3;
                     }
 
-                    if ($home_final - $away_final === $homePredict - $awayPredict) {
+                    if ($home_final - $away_final === $homePredict - $awayPredict || $away_final - $home_final === $awayPredict - $homePredict) {
 
                         $points = $points + 1;
                     }

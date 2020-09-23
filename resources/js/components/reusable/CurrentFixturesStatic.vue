@@ -4,7 +4,7 @@
       <div class="col-md">
         <span> Temporada: 2020 </span>
       </div>
-      <span>{{ $store.state.activeRound[0].round }}</span>
+      <span>{{ currentFixtures[0].round }}</span>
     </div>
     <div class="card-body p-0">
       <div class="card-text">
@@ -16,9 +16,7 @@
           >
             <div class="row no-gutters">
               <div class="col">
-                <span>{{
-                  new Date(fixture.event_date).toLocaleDateString()
-                }}</span>
+                <span>{{ toDate(fixture.event_date) }}</span>
               </div>
               <div class="col">
                 <span>{{ fixture.home_team.name }}</span>
@@ -32,12 +30,7 @@
                 <span>{{ fixture.away_team.name }}</span>
               </div>
               <div class="col">
-                <span>{{
-                  new Date(fixture.event_date).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })
-                }}</span>
+                <span>{{ toTime(fixture.event_date) }}</span>
               </div>
             </div>
           </li>
@@ -56,16 +49,25 @@ export default {
     this.$store.dispatch("getCurrentFixtures").then((resp) => {
       console.log("got current fixtures");
     });
-    this.$store.dispatch("getCurrentRound").then((resp) => {
-      console.log("got current round");
-    });
   },
   computed: {
     currentFixtures: function () {
       return this.$store.getters.currentFixtures;
     },
-    currentRound: function () {
-      return this.$store.getters.currentRound;
+  },
+  methods: {
+    toDate: function (date) {
+      var formattedDate = date.replace(/-/g, "/");
+      var newDate = new Date(formattedDate).toLocaleDateString();
+      return newDate;
+    },
+    toTime: function (date) {
+      var formattedDate = date.replace(/-/g, "/");
+      var newTime = new Date(formattedDate).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      return newTime;
     },
   },
 };

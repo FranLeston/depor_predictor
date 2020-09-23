@@ -1,8 +1,8 @@
 <template>
   <div>
     <table class="table table-striped table-sm shadow-lg">
-      <thead>
-        <tr class="depor-blue-fade">
+      <thead class="depor-blue-fade">
+        <tr>
           <th scope="col">#</th>
           <th scope="col">Avatar</th>
           <th scope="col">Nombre</th>

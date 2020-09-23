@@ -21,9 +21,6 @@ if (token) {
 }
 
 
-
-
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -45,6 +42,7 @@ Vue.component('v-select', vSelect);
 store.dispatch("getAllRounds").then((resp) => {
     console.log("got all rounds");
 });
+
 store.dispatch("getCurrentRound").then((resp) => {
     console.log("got current round");
 });
