@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-8">
       <div class="row">
-        <div class="col">
+        <div class="col-sm">
           <div class="my-3">
             <span class="h4">Ranking Global</span>
           </div>
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col-sm-4">
       <div class="my-3">
         <span class="h4">En Juego</span>
       </div>
