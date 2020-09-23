@@ -10,20 +10,6 @@
           @input="getRankingsForRound($event)"
         >
         </v-select>
-        <!-- <select
-          class="form-control"
-          v-model="currentRound[0].id"
-          @change="getRankingsForRound($event)"
-        >
-          <option
-            v-for="(round, index) in allRounds"
-            v-bind:value="round.id"
-            :key="index"
-            :data-round="round.round"
-          >
-            {{ "Jornada - " + round.round.split("-").pop() }}
-          </option>
-        </select> -->
       </div>
     </div>
     <div class="row">

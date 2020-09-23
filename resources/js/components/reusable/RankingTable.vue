@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="col-sm-12">
     <table class="table table-striped table-sm shadow-lg">
       <thead class="depor-blue-fade">
         <tr>

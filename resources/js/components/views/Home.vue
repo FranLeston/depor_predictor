@@ -1,19 +1,11 @@
 <template>
   <div class="row">
     <div class="col-sm-8">
-      <div class="row">
-        <div class="col-sm">
-          <div class="my-3">
-            <span class="h4">Ranking Global</span>
-          </div>
-          <rankingTable></rankingTable>
-        </div>
-      </div>
+      <span class="h4">Ranking Global</span>
+      <rankingTable></rankingTable>
     </div>
     <div class="col-sm-4">
-      <div class="my-3">
-        <span class="h4">En Juego</span>
-      </div>
+      <span class="h4">En Juego</span>
       <currentFixturesStatic></currentFixturesStatic>
     </div>
   </div>
