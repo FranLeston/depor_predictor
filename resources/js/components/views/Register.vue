@@ -18,6 +18,7 @@
             class="form-control"
             v-bind:class="{ 'is-invalid': errors.name }"
             placeholder="Nombre"
+            maxlength="15"
             required
             autofocus
           />

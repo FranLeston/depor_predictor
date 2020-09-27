@@ -31,13 +31,13 @@
                 class="card-subtitle mb-2"
               >
                 {{
-                  new Date(prediction.event_date).toLocaleDateString() +
+                  toDate(prediction.event_date) +
                   " - " +
-                  new Date(prediction.event_date).toLocaleTimeString()
+                  toTime(prediction.event_date)
                 }}
               </h6>
               <h6 v-else class="card-subtitle mb-2">
-                {{ new Date(prediction.event_date).toLocaleDateString() }}
+                {{ toDate(prediction.event_date) }}
               </h6>
 
               <div class="card-text">
@@ -235,6 +235,19 @@ export default {
         .catch((resp) => {
           this.errors = index;
         });
+    },
+    toDate: function (date) {
+      var formattedDate = date.replace(/-/g, "/");
+      var newDate = new Date(formattedDate).toLocaleDateString();
+      return newDate;
+    },
+    toTime: function (date) {
+      var formattedDate = date.replace(/-/g, "/");
+      var newTime = new Date(formattedDate).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      return newTime;
     },
   },
 };
