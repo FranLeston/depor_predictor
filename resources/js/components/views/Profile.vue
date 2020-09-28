@@ -31,20 +31,27 @@
         </div>
         <div class="form-group">
           <label for="inputImage">Avatar</label>
+
+          <br />
+          <label for="file-upload" id="file-name" class="btn btn-depor-blue">
+            Subir Imagen (2Mb)
+          </label>
           <input
+            id="file-upload"
             type="file"
             class="form-control"
             v-bind:class="{ 'is-invalid': errors.avatar }"
             @change="selectFile"
             accept="image/png, image/jpeg, image/jpg"
           />
+
           <div v-if="errors.avatar" class="invalid-feedback">
             <span v-for="(error, index) in errors.avatar" :key="index">
               {{ error }}
             </span>
           </div>
         </div>
-
+        <br />
         <button type="submit" class="btn btn-purple">Actualizar</button>
       </form>
     </div>
@@ -68,7 +75,19 @@ export default {
   },
   methods: {
     selectFile: function (event) {
-      this.avatar = event.target.files[0];
+      const vm = this;
+      vm.errors = "";
+      var fileName = event.target.files[0].name;
+      var sizeMB = event.target.files[0].size / 1024 / 1024;
+      if (sizeMB > 2) {
+        var errors = {
+          avatar: ["La imagen pesa mas de 2 Megas"],
+        };
+        vm.errors = errors;
+      } else {
+        document.getElementById("file-name").innerHTML = fileName;
+        this.avatar = event.target.files[0];
+      }
     },
     updateProfile: function (e) {
       const vm = this;
@@ -104,5 +123,15 @@ export default {
 <style lang="css" scoped>
 .row {
   height: 75vh;
+}
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 </style>
