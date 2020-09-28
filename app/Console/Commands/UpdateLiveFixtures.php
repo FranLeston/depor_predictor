@@ -48,12 +48,11 @@ class UpdateLiveFixtures extends Command
     {
 
         //Find all fixtures in play
-        $liveFixtures = Fixture::where('is_current', true)->get();
+        $liveFixtures = Fixture::where('is_current', true)->where('league_id', 2847)->get();
         foreach ($liveFixtures as $key => $liveFixture) {
-            $now = Carbon::now();
             $matchStart = Carbon::parse($liveFixture->event_timestamp);
-            $matchEnd = Carbon::parse($liveFixture->event_timestamp)->addMinutes(150);
-            if ($now->between($matchStart, $matchEnd)) {
+            var_dump($matchStart);
+            if ($matchStart->isPast()) {
                 //$this->getAllFirstDivFixtures();
                 $this->getAllSecondDivFixtures();
                 //$this->getAllSecondDivBFixtures();
