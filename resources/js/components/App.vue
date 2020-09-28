@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-depor">
       <router-link class="navbar-brand" to="/">
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Escudo_del_Real_Club_Deportivo_de_La_Coru%C3%B1a.png"
+          src="/images/site/rcdeporlogo.png"
           width="30"
           height="30"
           class="d-inline-block align-top"
