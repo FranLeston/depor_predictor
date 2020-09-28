@@ -57,6 +57,7 @@ class UpdateLiveFixtures extends Command
                 //$this->getAllFirstDivFixtures();
                 $this->getAllSecondDivFixtures();
                 //$this->getAllSecondDivBFixtures();
+                break;
             }
 
         }

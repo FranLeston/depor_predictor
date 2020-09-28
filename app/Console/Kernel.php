@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\getFixtures;
+use App\Console\Commands\getLeagues;
 use App\Console\Commands\UpdateLiveFixtures;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -16,6 +17,10 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\getFixtures::class,
+        Commands\getTeams::class,
+        Commands\getLeagues::class,
+        Commands\UpdateLiveFixtures::class,
+
     ];
 
     /**
@@ -26,8 +31,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command(getLeagues::class)->daily();
+        $schedule->command(getTeams::class)->daily();
         $schedule->command(getFixtures::class)->hourly(0);
         $schedule->command(UpdateLiveFixtures::class)->everyFiveMinutes();
+
     }
 
     /**
