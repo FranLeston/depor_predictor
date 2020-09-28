@@ -101,5 +101,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="css" scoped>
+.row {
+  height: 75vh;
+}
 </style>

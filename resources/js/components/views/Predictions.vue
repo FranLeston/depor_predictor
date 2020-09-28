@@ -9,20 +9,6 @@
         @input="getGamesForRound($event)"
       >
       </v-select>
-      <!-- <select
-        class="form-control"
-        v-model="currentRound[0].id"
-        @change="getGamesForRound($event)"
-      >
-        <option
-          v-for="(round, index) in allRounds"
-          v-bind:value="round.id"
-          :key="index"
-          :data-round="round.round"
-        >
-          {{ "Jornada - " + round.round.split("-").pop() }}
-        </option>
-      </select> -->
     </div>
 
     <SinglePredictionComponent></SinglePredictionComponent>

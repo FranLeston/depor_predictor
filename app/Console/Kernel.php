@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(getFixtures::class)->hourly(0);
+        $schedule->command(getFixtures::class)->everyFiveMinutes();
     }
 
     /**

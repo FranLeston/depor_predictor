@@ -51,15 +51,6 @@
                       />
                       <figcaption>{{ prediction.home_team.name }}</figcaption>
                     </figure>
-                    <!-- <input
-                      v-if="prediction.short_status === 'NS'"
-                      v-bind:readonly="prediction.short_status != 'NS'"
-                      v-model="prediction.predictions[0].home_team_prediction"
-                      type="number"
-                      class="form-control form-control-sm"
-                      min="0"
-                      required
-                    /> -->
                   </div>
                   <div class="col-4">
                     <span
@@ -86,15 +77,6 @@
                       />
                       <figcaption>{{ prediction.away_team.name }}</figcaption>
                     </figure>
-                    <!-- <input
-                      v-if="prediction.short_status === 'NS'"
-                      v-bind:readonly="prediction.short_status != 'NS'"
-                      v-model="prediction.predictions[0].away_team_prediction"
-                      type="number"
-                      class="form-control form-control-sm"
-                      min="0"
-                      required
-                    />-->
                   </div>
                 </div>
                 <div class="row justify-content-center">

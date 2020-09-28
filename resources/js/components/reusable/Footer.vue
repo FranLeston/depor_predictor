@@ -49,6 +49,9 @@ export default {};
 footer {
   background-color: #004a99;
   color: #ffffff;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 a {

@@ -15,7 +15,7 @@
         <tr v-for="(user, index) in users.data" :key="index">
           <th
             :class="{
-              'table-purple': index === 0,
+              'table-purple': index === 0 && users.prev_page_url === null,
               'table-primary': user.id === currentUser.id,
             }"
             scope="row"
