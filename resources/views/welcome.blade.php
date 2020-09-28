@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="description" content='3Haz tus pronosticos en QuiniDepor.  Web dedicada al Deportivo de la Coruña.'>
+    <meta name="ROBOTS" content="INDEX, FOLLOW">
 
     <title>QuiniDepor</title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -21,13 +23,8 @@
     <script>
         window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-31773816-2');
+  gtag(' js', new Date()); gtag('config', 'UA-31773816-2' );
     </script>
-
-
-
 </head>
 
 <body>
