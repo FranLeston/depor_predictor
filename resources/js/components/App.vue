@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-depor">
       <router-link class="navbar-brand" to="/">
         <img
-          src="/images/site/rcdeporlogo.png"
+          :src="'/images/site/rcdeporlogo.png'"
           width="30"
           height="30"
           class="d-inline-block align-top"
