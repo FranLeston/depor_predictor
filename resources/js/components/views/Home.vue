@@ -47,6 +47,13 @@
       <rankingTable></rankingTable>
     </div>
     <div class="col-sm-4">
+      <adsense
+        ad-client="ca-pub-3438390069739160"
+        ad-slot="3438390069739160"
+        ad-style="display: block"
+        ad-format="auto"
+      >
+      </adsense>
       <span class="h4">En Juego</span>
       <currentFixturesStatic></currentFixturesStatic>
     </div>

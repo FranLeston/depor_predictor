@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "dotenv": "^8.2.0",
+        "vue-adsense": "^1.0.1",
         "vue-router": "^3.4.3",
         "vue-select": "^3.10.8",
         "vuex": "^3.5.1",
