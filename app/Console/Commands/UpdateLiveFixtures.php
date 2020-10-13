@@ -54,8 +54,8 @@ class UpdateLiveFixtures extends Command
             var_dump($matchStart);
             if ($matchStart->isPast()) {
                 //$this->getAllFirstDivFixtures();
-                $this->getAllSecondDivFixtures();
-                //$this->getAllSecondDivBFixtures();
+                //$this->getAllSecondDivFixtures();
+                $this->getAllSecondDivBFixtures();
                 break;
             }
 

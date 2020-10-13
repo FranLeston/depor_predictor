@@ -11,9 +11,6 @@ import router from "./router";
 import vSelect from "vue-select";
 import VueAdsense from '../../node_modules/vue-adsense/VueAdsense.vue';
 
-
-
-
 import Axios from 'axios';
 
 Vue.prototype.$http = Axios;
