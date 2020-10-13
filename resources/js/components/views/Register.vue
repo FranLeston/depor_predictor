@@ -45,7 +45,7 @@
             </span>
           </div>
           <small id="emailHelp" class="form-text text-muted"
-            >Nunca compartiremos tú email.</small
+            >Nunca compartiremos tu email.</small
           >
         </div>
         <div class="form-group">
