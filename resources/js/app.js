@@ -9,7 +9,6 @@ window.Vue = require("vue");
 import store from "./store";
 import router from "./router";
 import vSelect from "vue-select";
-import VueAdsense from '../../node_modules/vue-adsense/VueAdsense.vue';
 
 import Axios from 'axios';
 
@@ -37,7 +36,6 @@ Vue.component(
 
 );
 
-Vue.component('adsense', VueAdsense);
 
 Vue.component('v-select', vSelect);
 
