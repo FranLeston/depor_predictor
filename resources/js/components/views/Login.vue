@@ -4,7 +4,7 @@
       <form @submit.prevent="login">
         <img
           class="mb-4"
-          src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Escudo_del_Real_Club_Deportivo_de_La_Coru%C3%B1a.png"
+          :src="'/images/site/rcdeporlogo.png'"
           alt=""
           width="72"
           height="72"
