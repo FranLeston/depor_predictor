@@ -49,7 +49,7 @@
           >
         </div>
         <div class="form-group">
-          <label>Contraseña (minimo 8 carateres)</label>
+          <label>Contraseña (mínimo 8 caracteres)</label>
           <input
             v-model="password"
             type="password"

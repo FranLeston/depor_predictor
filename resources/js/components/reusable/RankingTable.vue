@@ -7,7 +7,7 @@
             <th scope="col">#</th>
             <th scope="col">Avatar</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Pronosticos</th>
+            <th scope="col">Pronósticos</th>
             <th scope="col">Aciertos</th>
             <th scope="col">Puntos</th>
           </tr>

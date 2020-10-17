@@ -4,10 +4,10 @@
       <div v-if="!$store.getters.isLoggedIn" class="jumbotron">
         <h1 class="display-4">Bienvenido a QuiniDepor!</h1>
         <p class="lead">
-          Hola a todos! Me llamo Fran y he creado este pequeño sitio en la web
-          dedicado al Depor en mi rato libre para que nos divertamos un poco.
-          Mas adelante, vendran mas cosillas interesantes pero por ahora, ya
-          puedes dejar tus pronosticos y empezar a sumar puntos!
+          ¡Hola a todos! Me llamo Fran y he creado este pequeño sitio en la web
+          dedicado al Depor en mi rato libre para que nos divirtamos un poco.
+          Más adelante, vendrán más cosillas interesantes pero por ahora, ya
+          puedes dejar tus pronósticos y empezar a sumar puntos!
         </p>
         <hr class="my-4" />
         <p>¡Empieza a jugar creando tu cuenta ya!</p>
@@ -23,7 +23,7 @@
         <p class="lead">
           Echale un vistazo a las
           <router-link to="/rules">Reglas</router-link> para conocer el sistema
-          de puntos y la clasificacion.
+          de puntos y la clasificación.
         </p>
         <p class="lead">
           Puedes actualizar tu avatar en tú página de
@@ -32,10 +32,20 @@
         <p class="lead">
           En los
           <router-link to="/rankings">Rankings </router-link>puedes ver tanto la
-          clasificacion global como la de cada jornada.
+          clasificación global como la de cada jornada.
         </p>
+        <p class="lead">
+          <a
+            href="https://twitter.com/quinidepor?ref_src=twsrc%5Etfw"
+            class="twitter-follow-button"
+            data-size="large"
+            data-show-count="false"
+            >Follow @quinidepor</a
+          >
+        </p>
+
         <hr class="my-4" />
-        <p>¿Ya has rellenado tus pronosticos?</p>
+        <p>¿Ya has rellenado tus pronósticos?</p>
         <router-link
           class="btn btn-depor-blue btn-lg"
           to="/predictions"

@@ -25,6 +25,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag(' js', new Date()); gtag('config', 'UA-31773816-2' );
     </script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 
 <body>

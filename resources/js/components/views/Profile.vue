@@ -10,7 +10,7 @@
         />
         <h1 class="h3 mb-3 font-weight-normal">Perfil</h1>
         <div v-if="errors" class="alert alert-danger" role="alert">
-          Por favor, revisa los campos e intentalo de nuevo.
+          Por favor, revisa los campos e inténtalo de nuevo.
         </div>
         <div v-if="success" class="alert alert-success" role="alert">
           Perfil actualizado.
