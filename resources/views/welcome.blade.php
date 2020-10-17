@@ -15,6 +15,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link rel="stylesheet" href="/css/app.css">
 
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
     <script data-ad-client="ca-pub-3438390069739160" async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -25,7 +28,6 @@
   function gtag(){dataLayer.push(arguments);}
   gtag(' js', new Date()); gtag('config', 'UA-31773816-2' );
     </script>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 
 <body>
